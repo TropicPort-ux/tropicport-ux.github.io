@@ -4399,6 +4399,14 @@ document.querySelectorAll(".card").forEach(function (c) {
   transition: transform .2s ease, opacity .2s ease;
 }
 .wallet-connect-btn:active { transform: scale(.96); opacity: .85; }
+.tp-wchip { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; background: var(--bg2); border: 1px solid rgba(255,255,255,.09); border-radius: 999px; padding: 8px 14px; font-size: 13.5px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+.tp-wchip .tp-wdot { width: 8px; height: 8px; border-radius: 50%; background: #35c759; flex: none; }
+button.tp-wchip { cursor: pointer; font: inherit; }
+.tp-lims { margin: 2px 0 12px; }
+.tp-limrow { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12.5px; padding: 3px 0; }
+.tp-limrow b { color: #fff; font-weight: 600; }
+.tp-status { min-height: 18px; color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+.tp-status:empty { display: none; }
 .gram-pill {
   margin-left: auto; flex: none; display: inline-flex; align-items: center; gap: 6px;
   background: linear-gradient(180deg, #2a6e4e, #0b3524); color: #fff;
@@ -4489,11 +4497,14 @@ document.querySelectorAll(".card").forEach(function (c) {
 </style>
 <script>
 // ===== Гаманець GRAM: окреме вікно, депозит/вивід у межах сеансу, історія з реальних дій демо =====
-Object.assign(I18N.en, { wallet_your: "Your wallet", wallet_connect: "Connect wallet", w_soon: "Coming soon", wallet_balance_label: "TropicPort wallet balance", w_topup: "Top up", w_withdraw: "Withdraw", wf_balance: "Balance", wf_gifts: "Gifts", wf_offers: "Offers", tx_credit: "Balance credit", w_amount_ph: "Amount, GRAM", w_confirm: "Confirm", w_dep_t: "Top up balance", w_wd_t: "Withdraw GRAM", w_dep_done: "Balance topped up by {amt} GRAM", w_wd_done: "Withdrawn {amt} GRAM", w_enter_amount: "Enter an amount" });
-Object.assign(I18N.uk, { wallet_your: "Ваш гаманець", wallet_connect: "Прив’язати гаманець", w_soon: "Скоро", wallet_balance_label: "Баланс гаманця TropicPort", w_topup: "Поповнити", w_withdraw: "Вивести", wf_balance: "Баланс", wf_gifts: "Подарунки", wf_offers: "Оффери", tx_credit: "Нарахування балансу", w_amount_ph: "Сума, GRAM", w_confirm: "Підтвердити", w_dep_t: "Поповнити баланс", w_wd_t: "Вивести GRAM", w_dep_done: "Баланс поповнено на {amt} GRAM", w_wd_done: "Виведено {amt} GRAM", w_enter_amount: "Вкажи суму" });
-Object.assign(I18N.ru, { wallet_your: "Ваш кошелёк", wallet_connect: "Привязать кошелёк", w_soon: "Скоро", wallet_balance_label: "Баланс кошелька TropicPort", w_topup: "Пополнить", w_withdraw: "Вывод", wf_balance: "Баланс", wf_gifts: "Гифты", wf_offers: "Офферы", tx_credit: "Начисление баланса", w_amount_ph: "Сумма, GRAM", w_confirm: "Подтвердить", w_dep_t: "Пополнить баланс", w_wd_t: "Вывод GRAM", w_dep_done: "Баланс пополнен на {amt} GRAM", w_wd_done: "Выведено {amt} GRAM", w_enter_amount: "Укажи сумму" });
-Object.assign(I18N.zh, { wallet_your: "您的钱包", wallet_connect: "连接钱包", w_soon: "即将推出", wallet_balance_label: "TropicPort 钱包余额", w_topup: "充值", w_withdraw: "提现", wf_balance: "余额", wf_gifts: "礼物", wf_offers: "报价", tx_credit: "余额入账", w_amount_ph: "金额，GRAM", w_confirm: "确认", w_dep_t: "充值余额", w_wd_t: "提现 GRAM", w_dep_done: "已充值 {amt} GRAM", w_wd_done: "已提现 {amt} GRAM", w_enter_amount: "请输入金额" });
-Object.assign(I18N.ja, { wallet_your: "あなたのウォレット", wallet_connect: "ウォレットを接続", w_soon: "近日公開", wallet_balance_label: "TropicPortウォレット残高", w_topup: "チャージ", w_withdraw: "出金", wf_balance: "残高", wf_gifts: "ギフト", wf_offers: "オファー", tx_credit: "残高の入金", w_amount_ph: "金額、GRAM", w_confirm: "確認", w_dep_t: "残高チャージ", w_wd_t: "GRAM出金", w_dep_done: "{amt} GRAM チャージしました", w_wd_done: "{amt} GRAM 出金しました", w_enter_amount: "金額を入力してください" });
+Object.assign(I18N.en, { wallet_your: "Your wallet", wallet_connect: "Connect wallet", w_soon: "Coming soon", wallet_balance_label: "TropicPort wallet balance", w_topup: "Top up", w_withdraw: "Withdraw", wf_balance: "Balance", wf_gifts: "Gifts", wf_offers: "Offers", tx_credit: "Balance credit", w_amount_ph: "Amount, GRAM", w_confirm: "Confirm", w_dep_t: "Top up balance", w_wd_t: "Withdraw GRAM", w_dep_done: "Balance topped up by {amt} GRAM", w_wd_done: "Withdrawn {amt} GRAM", w_enter_amount: "Enter an amount", dep_all: "All", dep_sent: "Sent — waiting for the credit…", dep_pending: "Transfer sent — crediting can take a minute", dep_rejected: "Transaction was cancelled in the wallet", wd_min: "Min 1 GRAM", wd_fee: "Fee ≈ 0.01 GRAM", wd_limit_tx: "Per-transaction limit", wd_limit_day: "Daily limit", wd_created: "Request created — payout after the owner's confirmation", api_unavailable: "Server is unavailable — balance may be outdated" });
+Object.assign(I18N.uk, { wallet_your: "Ваш гаманець", wallet_connect: "Прив’язати гаманець", w_soon: "Скоро", wallet_balance_label: "Баланс гаманця TropicPort", w_topup: "Поповнити", w_withdraw: "Вивести", wf_balance: "Баланс", wf_gifts: "Подарунки", wf_offers: "Оффери", tx_credit: "Нарахування балансу", w_amount_ph: "Сума, GRAM", w_confirm: "Підтвердити", w_dep_t: "Поповнити баланс", w_wd_t: "Вивести GRAM", w_dep_done: "Баланс поповнено на {amt} GRAM", w_wd_done: "Виведено {amt} GRAM", w_enter_amount: "Вкажи суму", dep_all: "Все", dep_sent: "Надіслано — чекаємо на зарахування…", dep_pending: "Переказ надіслано — зарахування може зайняти хвилину", dep_rejected: "Транзакцію скасовано в гаманці", wd_min: "Мін 1 GRAM", wd_fee: "Комісія ≈ 0.01 GRAM", wd_limit_tx: "Ліміт однієї транзакції", wd_limit_day: "Добовий ліміт", wd_created: "Заявку створено — виплата після підтвердження власника", api_unavailable: "Сервер недоступний — баланс може бути неактуальним" });
+Object.assign(I18N.ru, { wallet_your: "Ваш кошелёк", wallet_connect: "Привязать кошелёк", w_soon: "Скоро", wallet_balance_label: "Баланс кошелька TropicPort", w_topup: "Пополнить", w_withdraw: "Вывод", wf_balance: "Баланс", wf_gifts: "Гифты", wf_offers: "Офферы", tx_credit: "Начисление баланса", w_amount_ph: "Сумма, GRAM", w_confirm: "Подтвердить", w_dep_t: "Пополнить баланс", w_wd_t: "Вывод GRAM", w_dep_done: "Баланс пополнен на {amt} GRAM", w_wd_done: "Выведено {amt} GRAM", w_enter_amount: "Укажи сумму", dep_all: "Все", dep_sent: "Отправлено — ждём зачисления…", dep_pending: "Перевод отправлен — зачисление может занять минуту", dep_rejected: "Транзакция отменена в кошельке", wd_min: "Мин 1 GRAM", wd_fee: "Комиссия ≈ 0.01 GRAM", wd_limit_tx: "Лимит одной транзакции", wd_limit_day: "Суточный лимит", wd_created: "Заявка создана — выплата после подтверждения владельца", api_unavailable: "Сервер недоступен — баланс может быть неактуальным" });
+Object.assign(I18N.zh, { wallet_your: "您的钱包", wallet_connect: "连接钱包", w_soon: "即将推出", wallet_balance_label: "TropicPort 钱包余额", w_topup: "充值", w_withdraw: "提现", wf_balance: "余额", wf_gifts: "礼物", wf_offers: "报价", tx_credit: "余额入账", w_amount_ph: "金额，GRAM", w_confirm: "确认", w_dep_t: "充值余额", w_wd_t: "提现 GRAM", w_dep_done: "已充值 {amt} GRAM", w_wd_done: "已提现 {amt} GRAM", w_enter_amount: "请输入金额", dep_all: "全部", dep_sent: "已发送 — 等待入账…", dep_pending: "转账已发送 — 入账可能需要一分钟", dep_rejected: "交易已在钱包中取消", wd_min: "最低 1 GRAM", wd_fee: "手续费 ≈ 0.01 GRAM", wd_limit_tx: "单笔限额", wd_limit_day: "每日限额", wd_created: "申请已创建 — 所有者确认后付款", api_unavailable: "服务器不可用 — 余额可能不是最新" });
+Object.assign(I18N.ja, { wallet_your: "あなたのウォレット", wallet_connect: "ウォレットを接続", w_soon: "近日公開", wallet_balance_label: "TropicPortウォレット残高", w_topup: "チャージ", w_withdraw: "出金", wf_balance: "残高", wf_gifts: "ギフト", wf_offers: "オファー", tx_credit: "残高の入金", w_amount_ph: "金額、GRAM", w_confirm: "確認", w_dep_t: "残高チャージ", w_wd_t: "GRAM出金", w_dep_done: "{amt} GRAM チャージしました", w_wd_done: "{amt} GRAM 出金しました", w_enter_amount: "金額を入力してください", dep_all: "全額", dep_sent: "送信しました — 入金を待っています…", dep_pending: "送金しました — 入金まで1分ほどかかる場合があります", dep_rejected: "ウォレットで取引がキャンセルされました", wd_min: "最小 1 GRAM", wd_fee: "手数料 ≈ 0.01 GRAM", wd_limit_tx: "1回の上限", wd_limit_day: "1日の上限", wd_created: "申請を作成しました — オーナーの確認後に送金されます", api_unavailable: "サーバーに接続できません — 残高が古い可能性があります" });
+Object.assign(I18N.fa, { dep_all: "همه", dep_sent: "ارسال شد — در انتظار واریز…", dep_pending: "انتقال ارسال شد — واریز ممکن است یک دقیقه طول بکشد", dep_rejected: "تراکنش در کیف پول لغو شد", wd_min: "حداقل 1 GRAM", wd_fee: "کارمزد ≈ 0.01 GRAM", wd_limit_tx: "محدودیت هر تراکنش", wd_limit_day: "محدودیت روزانه", wd_created: "درخواست ایجاد شد — پرداخت پس از تأیید مالک انجام می‌شود", api_unavailable: "سرور در دسترس نیست — موجودی ممکن است به‌روز نباشد" });
+Object.assign(I18N.ko, { dep_all: "전액", dep_sent: "보냈습니다 — 입금을 기다리는 중…", dep_pending: "송금이 완료되었습니다 — 입금까지 1분 정도 걸릴 수 있습니다", dep_rejected: "지갑에서 거래가 취소되었습니다", wd_min: "최소 1 GRAM", wd_fee: "수수료 ≈ 0.01 GRAM", wd_limit_tx: "거래당 한도", wd_limit_day: "일일 한도", wd_created: "신청이 생성되었습니다 — 소유자 확인 후 지급됩니다", api_unavailable: "서버에 연결할 수 없습니다 — 잔고가 최신이 아닐 수 있습니다" });
+Object.assign(I18N.tr, { dep_all: "Tümü", dep_sent: "Gönderildi — bakiye yatması bekleniyor…", dep_pending: "Transfer gönderildi — bakiyenin yatması bir dakika sürebilir", dep_rejected: "İşlem cüzdanda iptal edildi", wd_min: "Min 1 GRAM", wd_fee: "Komisyon ≈ 0.01 GRAM", wd_limit_tx: "İşlem başına limit", wd_limit_day: "Günlük limit", wd_created: "Talep oluşturuldu — ödeme, sahip onayından sonra yapılır", api_unavailable: "Sunucu kullanılamıyor — bakiye güncel olmayabilir" });
 
 var GRAM_SVG = '<svg viewBox="0 0 84 78" width="12.82" height="11.9" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg>';
 var GRAM_SVG_CUR = '<svg viewBox="0 0 84 78" width="11.9" height="11.05" style="vertical-align:-1px" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg>';
@@ -4588,21 +4599,177 @@ document.querySelectorAll("[data-wf]").forEach(function (b) {
   });
 });
 
+/* ===== Справжнє API маркету: баланс, поповнення, вивід (як у Portals) =====
+   API-база приходить від бота параметром ?api=<тунель> у кнопці Market;
+   при першому вході зберігаємо її в sessionStorage, щоб повторні відкриття
+   у тій самій сесії Telegram її не губили. Усі запити несуть заголовок
+   X-Telegram-Init-Data — бекенд перевіряє підпис (fail closed). Баланс на
+   екрані — тільки з GET /api/profile; жодних сесійних/фейкових цифр. */
+var TP_API_BASE = (function () {
+  try {
+    var p = new URLSearchParams(location.search).get("api");
+    if (p) { try { sessionStorage.setItem("tp_api", p); } catch (e) {} return p.replace(/\/+$/, ""); }
+    var saved = sessionStorage.getItem("tp_api");
+    if (saved) return saved.replace(/\/+$/, "");
+  } catch (e) {}
+  return "";
+})();
+
+function tpInitData() {
+  try { return (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) || ""; } catch (e) { return ""; }
+}
+
+function tpApi(path, opts) {
+  opts = opts || {};
+  if (!TP_API_BASE) return Promise.reject(new Error("no api"));
+  return fetch(TP_API_BASE + path, {
+    method: opts.method || "GET",
+    headers: { "Content-Type": "application/json", "X-Telegram-Init-Data": tpInitData() },
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  }).then(function (r) {
+    return r.json().catch(function () { return {}; }).then(function (j) {
+      if (!r.ok) throw new Error((j && j.detail) || ("HTTP " + r.status));
+      return j;
+    });
+  });
+}
+
+function tpRefreshProfile() {
+  return tpApi("/api/profile").then(function (p) {
+    if (p && typeof p.balance === "number") { state.balance = p.balance; renderBalance(); }
+    return p;
+  });
+}
+
+function tpEsc(x) {
+  return String(x == null ? "" : x).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function tpWalletChipHtml() {
+  if (tcState.connected) {
+    return '<span class="tp-wchip"><span class="tp-wdot"></span><span>' +
+      (tcState.walletName ? tpEsc(tcState.walletName) + " · " : "") + tpEsc(tcShortAddr(tcState.address)) + "</span></span>";
+  }
+  return '<button type="button" class="tp-wchip" id="w-connect">' + t("wallet_connect") + "</button>";
+}
+
+function tpWalletGramBalance() {
+  /* Баланс підключеного гаманця для чіпа «Все» в поповненні — публічне
+     читання TonAPI за адресою гаманця (без ключів, тільки перегляд). */
+  return fetch("https://tonapi.io/v2/accounts/" + encodeURIComponent(tcState.address))
+    .then(function (r) { if (!r.ok) throw new Error("tonapi"); return r.json(); })
+    .then(function (j) { return (j.balance || 0) / 1e9; });
+}
+
+function tpDoDeposit(amt, btn, statusEl) {
+  var oldBalance = state.balance;
+  btn.disabled = true;
+  statusEl.textContent = "";
+  tpApi("/api/deposit-intent?amount=" + encodeURIComponent(amt)).then(function (intent) {
+    var ui = ensureTonConnect();
+    if (!ui) throw new Error(t("tc_error"));
+    return ui.sendTransaction({
+      validUntil: Math.floor(Date.now() / 1000) + 300,
+      messages: [{ address: intent.address, amount: intent.amount_nanotons, payload: intent.payload_boc_base64 }]
+    });
+  }).then(function () {
+    statusEl.textContent = t("dep_sent");
+    var tries = 0;
+    var iv = setInterval(function () {
+      tries++;
+      tpRefreshProfile().then(function (p) {
+        if (p && p.balance > oldBalance) {
+          clearInterval(iv);
+          statusEl.textContent = t("w_dep_done").replace("{amt}", fmt(p.balance - oldBalance));
+          btn.disabled = false;
+        } else if (tries >= 18) {
+          clearInterval(iv);
+          statusEl.textContent = t("dep_pending");
+          btn.disabled = false;
+        }
+      }).catch(function () {
+        if (tries >= 18) { clearInterval(iv); statusEl.textContent = t("dep_pending"); btn.disabled = false; }
+      });
+    }, 5000);
+  }).catch(function (err) {
+    btn.disabled = false;
+    if (err && /reject|cancel|declin/i.test(String(err.message || err))) alertUser(t("dep_rejected"));
+    else alertUser(err && err.message ? err.message : t("api_unavailable"));
+  });
+}
+
+function tpDoWithdraw(amt, btn) {
+  btn.disabled = true;
+  tpApi("/api/withdraw", { method: "POST", body: { amount: amt, to_address: tcState.address } }).then(function () {
+    alertUser(t("wd_created"));
+    closeSheet();
+    tpRefreshProfile().catch(function () {});
+  }).catch(function (err) {
+    btn.disabled = false;
+    alertUser(err && err.message ? err.message : t("api_unavailable"));
+  });
+}
+
 function openWalletSheet(kind) {
   var isDep = kind === "dep";
-  /* Жодних демо-нарахувань: раніше тут введена сума просто додавалась до
-     балансу. Реальний депозит — переказ GRAM на гаманець маркету зі своїм
-     memo-кодом (його бачить deposit-watcher бекенда й зараховує кошти),
-     реальний вивід підтверджується через бота. Тому шит — тільки
-     інструкція, баланс від нього не змінюється. */
+  var lims = isDep ? "" :
+    '<div class="tp-lims">' +
+    '<div class="tp-limrow"><span>' + t("wd_min") + '</span><span>' + t("wd_fee") + '</span></div>' +
+    '<div class="tp-limrow"><span>' + t("wd_limit_tx") + '</span><b>2 500</b></div>' +
+    '<div class="tp-limrow"><span>' + t("wd_limit_day") + '</span><b>20 000</b></div></div>';
   openSheetEl('<h2 class="sh-title">' + t(isDep ? "w_dep_t" : "w_wd_t") + "</h2>" +
-    '<p class="hint">' + t(isDep ? "stub_dep_x" : "stub_wbal_x") + "</p>" +
-    '<button class="btn primary big" id="w-ok">' + t("stub_ok") + "</button>");
-  document.getElementById("w-ok").addEventListener("click", closeSheet);
+    tpWalletChipHtml() +
+    '<div class="field-in amt-field"><input id="w-amt" type="number" inputmode="decimal" min="0" step="any" placeholder="' + t("w_amount_ph") + '"></div>' +
+    '<div class="chips2" id="w-chips">' +
+    '<button type="button" data-v="10">10</button><button type="button" data-v="50">50</button>' +
+    '<button type="button" data-v="100">100</button><button type="button" data-v="all">' + t("dep_all") + "</button></div>" +
+    lims +
+    '<button class="btn primary big" id="w-go">' + t(isDep ? "w_topup" : "w_withdraw") + "</button>" +
+    '<p class="tp-status" id="w-status"></p>');
+  var amtEl = document.getElementById("w-amt");
+  var goBtn = document.getElementById("w-go");
+  var statusEl = document.getElementById("w-status");
+  var connectBtn = document.getElementById("w-connect");
+  if (connectBtn) connectBtn.addEventListener("click", function () {
+    closeSheet();
+    if (window.openTonConnect) window.openTonConnect();
+  });
+  document.querySelectorAll("#w-chips button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.dataset.v !== "all") { amtEl.value = b.dataset.v; return; }
+      if (isDep) {
+        if (!tcState.connected) { alertUser(t("wallet_not_connected")); return; }
+        tpWalletGramBalance().then(function (v) {
+          var fill = Math.floor(Math.max(0, v - 0.05) * 100) / 100;
+          if (fill > 0) amtEl.value = fill; else alertUser(t("not_enough"));
+        }).catch(function () { alertUser(t("api_unavailable")); });
+      } else {
+        amtEl.value = state.balance || "";
+      }
+    });
+  });
+  goBtn.addEventListener("click", function () {
+    var amt = parseFloat(amtEl.value);
+    if (!amt || amt <= 0) { alertUser(t("w_enter_amount")); return; }
+    if (!tcState.connected) { alertUser(t("wallet_not_connected")); return; }
+    if (isDep) { tpDoDeposit(amt, goBtn, statusEl); return; }
+    if (amt < 1) { alertUser(t("wd_min")); return; }
+    if (amt > 2500) { alertUser(t("wd_limit_tx") + ": 2 500"); return; }
+    if (amt > state.balance) { alertUser(t("not_enough")); return; }
+    tpDoWithdraw(amt, goBtn);
+  });
 }
 document.getElementById("wallet-deposit-btn").addEventListener("click", function () { openWalletSheet("dep"); });
 document.getElementById("wallet-withdraw-btn").addEventListener("click", function () { openWalletSheet("wd"); });
 syncWallet();
+/* Справжній баланс при відкритті застосунку: якщо API-база є, тягнемо
+   /api/profile і показуємо тільки серверну цифру; API недоступне —
+   лишаємо 0 і чесно кажемо про це тостом (цифри не вигадуємо). */
+if (TP_API_BASE) {
+  tpRefreshProfile().catch(function () { alertUser(t("api_unavailable")); });
+}
 /* Ключі гаманця додані тільки в цьому скрипті (вище), тобто після
    початкового applyLang() у initLang — тому застосовуємо переклад
    до всього документа ще раз, щоб підписи гаманця стали текстом. */
