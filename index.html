@@ -4562,22 +4562,33 @@ function tpInitData() {
 function tpApi(path, opts) {
   opts = opts || {};
   if (!TP_API_BASE) return Promise.reject(new Error("no api"));
+  /* Таймаут 15 с: мертва API-адреса (напр., протухлий тунель у відкритому
+     вебвʼю) не має права вішати грошові кнопки назавжди — запит падає
+     з чесною помилкою api_unavailable, яку бачить юзер. */
+  var ctl = window.AbortController ? new AbortController() : null;
+  var timer = ctl ? setTimeout(function () { ctl.abort(); }, 15000) : null;
   return fetch(TP_API_BASE + path, {
     method: opts.method || "GET",
     headers: { "Content-Type": "application/json", "X-Telegram-Init-Data": tpInitData() },
-    body: opts.body ? JSON.stringify(opts.body) : undefined
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+    signal: ctl ? ctl.signal : undefined
   }).then(function (r) {
+    if (timer) clearTimeout(timer);
     return r.json().catch(function () { return {}; }).then(function (j) {
       if (!r.ok) throw new Error((j && j.detail) || ("HTTP " + r.status));
       return j;
     });
+  }, function (e) {
+    if (timer) clearTimeout(timer);
+    if (e && e.name === "AbortError") throw new Error(t("api_unavailable"));
+    throw e;
   });
 }
 
 function tpAlert(msg) {
   /* alertUser у деяких webview-оточеннях кидає синхронно (showAlert/showPopup
      недоступні) — сповіщення не має права ламати грошовий флоу. */
-  try { tpAlert(msg); } catch (e) { try { toastMsg(msg); } catch (e2) {} }
+  try { alertUser(msg); } catch (e) { try { toastMsg(msg); } catch (e2) {} }
 }
 
 function tpRefreshProfile() {
@@ -4607,6 +4618,13 @@ function tpWalletGramBalance() {
   return fetch("https://tonapi.io/v2/accounts/" + encodeURIComponent(tcState.address))
     .then(function (r) { if (!r.ok) throw new Error("tonapi"); return r.json(); })
     .then(function (j) { return (j.balance || 0) / 1e9; });
+}
+
+function tpParseAmt(v) {
+  /* Сума може прийти з комою замість крапки (укр. розкладка/локаль):
+     «0,65» має читатись як 0.65, а не як 0 і не як NaN. */
+  var n = parseFloat(String(v == null ? "" : v).replace(/\s+/g, "").replace(",", "."));
+  return isFinite(n) ? n : NaN;
 }
 
 function tpDoDeposit(amt, btn, statusEl) {
@@ -4683,7 +4701,7 @@ function openWalletSheet(kind) {
   body.innerHTML =
     '<div class="money-wlabel">' + t("w_conn_wallet") + "</div>" +
     '<div class="money-wrow">' + tpWalletChipHtml() + "</div>" +
-    '<div class="money-amt"><input id="w-amt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" aria-label="' + t("w_amount_ph") + '">' +
+    '<div class="money-amt"><input id="w-amt" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-label="' + t("w_amount_ph") + '">' +
     '<span class="money-cur">GRAM</span></div>' +
     '<div class="money-chips" id="w-chips">' +
     '<button type="button" data-v="10">' + GRAM_ICON + "10</button>" +
@@ -4712,7 +4730,7 @@ function openWalletSheet(kind) {
      при зміні стану TON Connect (syncWallet смикає window.tpMoneySync). */
   var lastSig = null;
   function syncGo() {
-    var amt = parseFloat(amtEl.value);
+    var amt = tpParseAmt(amtEl.value);
     var okAmt = !!amt && amt > 0;
     var okAddr = isDep || (addrEl && addrEl.value.trim().length >= 8);
     goBtn.disabled = !(okAmt && okAddr && tcState.connected);
@@ -4744,7 +4762,7 @@ function openWalletSheet(kind) {
     });
   });
   goBtn.addEventListener("click", function () {
-    var amt = parseFloat(amtEl.value);
+    var amt = tpParseAmt(amtEl.value);
     if (!amt || amt <= 0) { tpAlert(t("w_enter_amount")); return; }
     if (!tcState.connected) { tpAlert(t("wallet_not_connected")); return; }
     if (isDep) { tpDoDeposit(amt, goBtn, statusEl); return; }
