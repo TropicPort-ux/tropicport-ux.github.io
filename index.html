@@ -4854,6 +4854,12 @@ Object.assign(I18N.ja, { wallet_not_connected: "ウォレット未接続", walle
 
 var tcState = { connected: false, address: "", walletName: "" };
 var tcUI = null;
+/* Прапорець наміру підключення: виставляється ТІЛЬКИ коли юзер сам
+   відкриває модалку Connect у цій сесії сторінки (trySdkModal).
+   onStatusChange приходить і при відновленні bridge-сесії на відкритті
+   застосунку — тоді прапорця нема, і тост «Гаманець підключено»
+   не показується: стан просто мовчки синхронізується. */
+var tcConnectIntent = false;
 var tcHideTimer = null;
 
 function tcShortAddr(a) {
@@ -4938,7 +4944,10 @@ function ensureTonConnect() {
         tcState.walletName = (wallet.device && wallet.device.appName) || "TON wallet";
         syncTcState();
         closeTonConnect();
-        alertUser(t("tc_connected_toast").replace("{addr}", tcShortAddr(tcState.address)));
+        /* Тост — тільки про свіже підключення за дією юзера в цій сесії
+           (tcConnectIntent); відновлення сесії при відкритті — мовчки. */
+        if (tcConnectIntent) alertUser(t("tc_connected_toast").replace("{addr}", tcShortAddr(tcState.address)));
+        tcConnectIntent = false;
       } else if (tcState.connected) {
         tcState.connected = false; tcState.address = ""; tcState.walletName = "";
         syncTcState();
@@ -4964,6 +4973,7 @@ function trySdkModal() {
   var ui = ensureTonConnect();
   if (!ui) return false;
   try {
+    tcConnectIntent = true;
     var p = ui.openModal();
     if (p && typeof p.catch === "function") {
       p.catch(function (err) {
