@@ -1950,31 +1950,61 @@ dialog#buy-dialog .btn.ghost { margin-top: 2px; }
 
   <!-- ===== PROFILE ===== -->
   <section id="screen-profile" class="screen">
-    <header class="topbar"><div class="logo" id="profile-title">Profile</div></header>
+    <div class="pf-toprow">
+      <button type="button" class="pf-gear" id="pf-gear" aria-label="Settings"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.51 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.23.6.86 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg></button>
+      <button type="button" class="balance-pill" id="pf-pill"><span id="profile-balance">0</span>&nbsp;GRAM <svg viewBox="0 0 84 78" width="15" height="14" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg></button>
+    </div>
+    <div class="pf-staking">
+      <button type="button" class="pf-stake" id="stake-gifts">
+        <span class="pf-stake-ico green"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v9h14v-9M12 8s-4.5.2-4.5-2.6C7.5 3 12 3.4 12 8zm0 0s4.5.2 4.5-2.6C16.5 3 12 3.4 12 8z"/></svg></span>
+        <span class="pf-stake-main"><b data-i18n="stake_gifts">Gift staking</b><small class="apr-green">25% APR</small></span>
+      </button>
+      <button type="button" class="pf-stake" id="stake-gram">
+        <span class="pf-stake-ico blue"><svg viewBox="0 0 84 78" width="15" height="14" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg></span>
+        <span class="pf-stake-main"><b data-i18n="stake_gram">GRAM staking</b><small class="apr-blue">12% APR</small></span>
+      </button>
+    </div>
     <div class="profile-card">
       <div class="avatar"><span class="avatar-emoji" aria-hidden="true">👤</span><img class="avatar-img hidden" id="profile-avatar" alt="" referrerpolicy="no-referrer"></div>
       <div>
         <div id="profile-name">Guest</div>
         <div class="muted" id="profile-username"></div>
+      <button type="button" class="pf-inv-block" id="pf-inv-block"><span class="pf-inv-l"><span data-i18n="pf_inventory">Inventory</span><b id="pf-inv">0</b></span><span class="pf-inv-chev">›</span></button></div>
+    <div class="statrow pf-stats"><div><b id="pf-val">—</b><span data-i18n="pf_val">Inventory value</span></div><div><b id="pf-bs">0/0</b><span data-i18n="pf_bs">Bought / Sold</span></div><div><b id="pf-vol">0</b><span data-i18n="pf_vol">Total volume, GRAM</span></div></div>
+    <div class="ref-block">
+      <button type="button" class="ref-plaque" id="ref-plaque">
+        <span class="ref-plaque-lvl" id="ref-level-label">Level TropicPort 1</span>
+        <span class="ref-pct" id="ref-pct">20%</span>
+        <span class="ref-more"><span data-i18n="ref_more">More</span> ›</span>
+      </button>
+      <div class="reftiles"><div><span data-i18n="rf_earn">Earned</span><b id="rf-earn">0</b></div><div><span data-i18n="rf_refs">Referrals</span><b id="rf-refs">0</b></div><div><span data-i18n="rf_vol">Referral volume</span><b id="rf-vol">0</b></div></div>
+      <button class="btn primary big" id="invite-btn" data-i18n="invite_btn">Invite friends</button>
+      <div class="ref-link-text" id="ref-link-text"></div>
+    </div>
+  </section>
+
+  <!-- ===== РЕФЕРАЛЬНІ РІВНІ (фаза F) ===== -->
+  <section id="screen-referral" class="screen">
+    <header class="topbar"><button type="button" class="back-btn" id="ref-back" aria-label="Back">‹</button><div class="logo" data-i18n="ref_levels_title">Referral levels</div></header>
+    <div class="ref-earn-card">
+      <div class="ref-earn-main"><span data-i18n="rf_earn">Earned</span><b id="rl-ref-balance">0</b></div>
+      <button type="button" class="btn primary" id="ref-claim" data-i18n="ref_claim">Claim</button>
+    </div>
+    <div class="ref-stats-card">
+      <div class="ref-stats-head"><b data-i18n="ref_stats">Statistics</b>
+        <div class="seg2 ref-tabs"><button type="button" data-rp="all" class="on" data-i18n="ref_tab_all">All</button><button type="button" data-rp="d1">24h</button><button type="button" data-rp="d7">7d</button></div>
+      </div>
+      <div class="ref-stats-grid">
+        <div><b id="rl-st-earned">0</b><span data-i18n="ref_st_earned">Earned from fees</span></div>
+        <div><b id="rl-st-volume">0</b><span data-i18n="ref_st_volume">Referral purchases</span></div>
+        <div><b id="rl-st-invited">0</b><span data-i18n="ref_st_invited">Invited friends</span></div>
+        <div><b id="rl-st-gifts">0</b><span data-i18n="ref_st_gifts">Gifts bought</span></div>
       </div>
     </div>
-    <button class="points-row" id="points-pill" type="button">
-      <i class="points-row-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="#cfa855"><path d="M12 2c.7 5.8 2.2 7.8 8 9-5.8 1.2-7.3 3.2-8 9-.7-5.8-2.2-7.8-8-9 5.8-1.2 7.3-3.2 8-9z"/></svg></i>
-      <div class="points-row-main"><div class="points-row-label" data-i18n="pf_points">Season points</div><div class="points-row-sub" data-i18n="season_title">Season #2</div></div>
-      <span class="points-row-val">0</span>
-      <svg class="points-row-chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>
-    </button>
-    <div class="statrow"><div><b id="pf-inv">0</b><span data-i18n="pf_inv">Gifts in inventory</span></div><div><b id="pf-val">—</b><span id="pf-val-label" data-i18n="pf_val">Inventory value</span></div><div><b id="pf-bs">0/0</b><span data-i18n="pf_bs">Bought / Sold</span></div><div><b id="pf-vol">0</b><span data-i18n="pf_vol">Total volume, GRAM</span></div></div>
-    <div class="reftiles"><div><span data-i18n="rf_earn">Earned</span><b id="rf-earn">0 <svg viewBox="0 0 84 78" width="0.92em" height="0.85em" style="vertical-align:-.12em" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg></b></div><div><span data-i18n="rf_refs">Referrals</span><b id="rf-cnt">0</b></div><div class="wide"><span data-i18n="rf_vol">Referral volume</span><b id="rf-vol">0 <svg viewBox="0 0 84 78" width="0.92em" height="0.85em" style="vertical-align:-.12em" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg></b></div></div>
-    <button class="btn primary big" id="invite-btn" data-i18n="invite_btn">Invite friends</button>
-    <div class="balance-card">
-      <div class="muted" data-i18n="balance_label">Balance</div>
-      <div class="balance-big"><span id="profile-balance">0</span> GRAM <svg viewBox="0 0 84 78" width="0.92em" height="0.85em" style="vertical-align:-.12em" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg></div>
-      <div class="row">
-        <button class="btn" id="deposit-btn" data-i18n="deposit_btn">➕ Deposit</button>
-        <button class="btn" id="withdraw-btn" data-i18n="withdraw_btn">➖ Withdraw</button>
-      </div>
-    </div>
+    <div class="ref-carousel" id="ref-carousel"></div>
+    <div class="ref-list-head"><b data-i18n="rf_refs">Referrals</b><span class="ref-list-cols"><span data-i18n="ref_col_bs">Bought / Sold</span><span data-i18n="rf_earn">Earned</span></span></div>
+    <div id="ref-list"></div>
+    <button class="btn primary big ref-pinned" id="ref-invite2" data-i18n="invite_btn">Invite friends</button>
   </section>
 
   <!-- ===== SETTINGS ===== -->
@@ -3586,8 +3616,8 @@ $("#sell-submit").addEventListener("click", () => {
 });
 
 /* ---------- Profile ---------- */
-$("#deposit-btn").addEventListener("click", () => openStub("deposit"));
-$("#withdraw-btn").addEventListener("click", () => openStub("withdrawBal"));
+var _db1 = $("#deposit-btn"); if (_db1) _db1.addEventListener("click", () => openStub("deposit"));
+var _db2 = $("#withdraw-btn"); if (_db2) _db2.addEventListener("click", () => openStub("withdrawBal"));
 ["set-lang", "set-notify", "set-notify-offers"].forEach(id => {
   const el = $("#" + id);
   const saved = localStorage.getItem("gm_" + id);
@@ -3977,15 +4007,20 @@ renderGifts();
 function fillProfile() {
   const floor = n => (COLLECTIONS.find(c => c.name === n) || {}).floor || 0;
   $("#pf-inv").textContent = state.myGifts.length;
-  const invVal = state.myGifts.reduce((s, g) => s + floor(g.collection), 0);
+  const invVal = state.myGifts.reduce((s, g) => s + ((g.status === "listed" && g.price) ? g.price : floor(g.collection)), 0);
   $("#pf-val").textContent = invVal > 0 ? fmt(invVal) + " GRAM" : "\u2014";
-  $("#pf-bs").textContent = state.deals.length + "/0";
-  $("#pf-vol").textContent = fmt(state.deals.reduce((s, l) => s + l.price, 0));
+  if (state.tpProfile) {
+    $("#pf-bs").textContent = (state.tpProfile.deals_bought || 0) + "/" + (state.tpProfile.deals_sold || 0);
+    $("#pf-vol").textContent = fmt(state.tpProfile.deals_volume || 0);
+  } else {
+    $("#pf-bs").textContent = state.deals.length + "/0";
+    $("#pf-vol").textContent = fmt(state.deals.reduce((s, l) => s + l.price, 0));
+  }
   document.querySelectorAll("[data-go-wallet]").forEach(b => b.innerHTML = fmt(state.balance) + " GRAM " + '<svg viewBox="0 0 84 78" width="11.9" height="11.05" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg>');
 }
 const _ss = showScreen;
 showScreen = function (n) { _ss(n); if (n === "profile" || n === "gifts") fillProfile(); };
-$("#invite-btn").addEventListener("click", () => alertUser(t("invite_alert")));
+$("#invite-btn").addEventListener("click", () => { if (window.tpOpenInvite) window.tpOpenInvite(); });
 
 /* ---------- Мова: відновлення вибору і перемикач у профілі ---------- */
 (function initLang() {
@@ -9302,6 +9337,252 @@ syncFiltersBadge = function () {
   });
   syncFiltersBadge();
 })();
+</script>
+<style>
+/* ===== Фази F/G: профіль за розкладкою Portals, реферальні рівні, стейкінг-заглушки ===== */
+.pf-toprow { display: flex; align-items: center; justify-content: space-between; margin: 6px 0 14px; }
+.pf-gear { width: 42px; height: 42px; border-radius: 50%; border: 1px solid #3a3a3a; background: #242424; color: #e5e5e5; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.pf-staking { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.pf-stake { display: flex; align-items: center; gap: 10px; text-align: left; background: #1b1b1b; border: 1px solid #2c2c2c; border-radius: 18px; padding: 12px; color: #fff; cursor: pointer; }
+.pf-stake-ico { width: 40px; height: 40px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex: none; }
+.pf-stake-ico.green { background: linear-gradient(160deg, #2a6e4e, #0b3524); }
+.pf-stake-ico.blue { background: linear-gradient(160deg, #2f6fb4, #123a63); }
+.pf-stake-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pf-stake-main b { font-size: 14px; line-height: 1.15; }
+.pf-stake-main small { font-size: 12.5px; font-weight: 800; }
+.apr-green { color: #34c759; } .apr-blue { color: #4da3ff; }
+.pf-inv-block { margin-left: auto; display: flex; align-items: center; gap: 8px; background: #242424; border: 1px solid #3a3a3a; color: #fff; border-radius: 14px; padding: 9px 12px; cursor: pointer; }
+.pf-inv-l { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+.pf-inv-l span { font-size: 11px; color: #9a9aa2; font-weight: 700; }
+.pf-inv-l b { font-size: 16px; }
+.pf-inv-chev { font-size: 20px; color: #9a9aa2; }
+.pf-stats { margin-top: 12px; }
+.ref-block { margin-top: 16px; }
+.ref-plaque { width: 100%; display: flex; align-items: center; gap: 10px; background: #1b1b1b; border: 1px solid #2c2c2c; border-radius: 16px; padding: 13px 14px; color: #fff; cursor: pointer; margin-bottom: 10px; }
+.ref-plaque-lvl { font-weight: 800; font-size: 15px; }
+.ref-pct { background: #2f7df6; color: #fff; font-weight: 800; font-size: 13px; border-radius: 999px; padding: 3px 10px; }
+.ref-more { margin-left: auto; color: #7db4ff; font-weight: 700; font-size: 14px; }
+.ref-link-text { margin-top: 9px; font-size: 12px; color: #8a8a92; word-break: break-all; text-align: center; }
+.ref-earn-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #1b1b1b; border: 1px solid #2c2c2c; border-radius: 18px; padding: 14px; margin-bottom: 12px; }
+.ref-earn-main { display: flex; flex-direction: column; gap: 2px; }
+.ref-earn-main span { font-size: 12px; color: #9a9aa2; font-weight: 700; }
+.ref-earn-main b { font-size: 20px; }
+.ref-stats-card { background: #1b1b1b; border: 1px solid #2c2c2c; border-radius: 18px; padding: 14px; margin-bottom: 14px; }
+.ref-stats-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.ref-tabs { margin: 0; }
+.ref-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; }
+.ref-stats-grid div { display: flex; flex-direction: column; gap: 2px; }
+.ref-stats-grid b { font-size: 16.5px; }
+.ref-stats-grid span { font-size: 11.5px; color: #9a9aa2; font-weight: 600; }
+.ref-carousel { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 12px; scroll-snap-type: x mandatory; }
+.lvl-card { position: relative; min-width: 158px; max-width: 158px; border-radius: 20px; padding: 14px; color: #fff; scroll-snap-align: start; border: 1px solid rgba(255,255,255,.14); overflow: hidden; }
+.lvl-card.cur { outline: 2px solid #2f7df6; }
+.lvl-spec { position: absolute; top: 10px; right: 10px; font-size: 9.5px; font-weight: 800; letter-spacing: .8px; background: rgba(255,255,255,.18); padding: 3px 7px; border-radius: 999px; }
+.lvl-name { font-size: 13px; font-weight: 700; opacity: .92; }
+.lvl-rate { font-size: 30px; font-weight: 800; margin: 6px 0 2px; }
+.lvl-range { font-size: 11.5px; opacity: .8; font-weight: 600; }
+.lvl-prog { height: 6px; background: rgba(255,255,255,.22); border-radius: 99px; margin-top: 10px; overflow: hidden; }
+.lvl-prog i { display: block; height: 100%; background: #fff; border-radius: 99px; }
+.lvl-prog-t { font-size: 11px; margin-top: 5px; opacity: .85; font-weight: 600; }
+.lvl-lock { position: absolute; bottom: 10px; right: 12px; font-size: 17px; }
+.lvl-card.locked { cursor: pointer; }
+.ref-list-head { display: flex; align-items: center; justify-content: space-between; margin: 4px 2px 8px; }
+.ref-list-cols { display: flex; gap: 18px; font-size: 11px; color: #9a9aa2; font-weight: 700; }
+.ref-row { display: flex; align-items: center; gap: 10px; background: #1b1b1b; border: 1px solid #2c2c2c; border-radius: 14px; padding: 10px 12px; margin-bottom: 8px; }
+.ref-num { color: #9a9aa2; font-weight: 700; font-size: 13px; width: 16px; }
+.ref-ava { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(150deg, #2a6e4e, #0b3524); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; flex: none; }
+.ref-main { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ref-main b { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ref-main small { color: #9a9aa2; font-size: 11.5px; }
+.ref-bs { font-weight: 700; font-size: 13.5px; }
+.ref-earned { font-size: 13.5px; }
+.ref-pinned { position: sticky; bottom: 12px; margin-top: 14px; box-shadow: 0 10px 26px rgba(0,0,0,.5); }
+.inv-banner { border-radius: 20px; padding: 20px 16px; margin-bottom: 12px; color: #fff; background: radial-gradient(110% 130% at 88% -10%, rgba(64,224,178,.35), rgba(0,0,0,0) 55%), linear-gradient(140deg, #0b3524, #04160f); border: 1px solid rgba(255,255,255,.12); }
+.inv-banner-t { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+.inv-pill { display: inline-block; background: #ff8a5c; color: #201106; font-weight: 800; font-size: 13px; padding: 5px 12px; border-radius: 999px; }
+.inv-card { background: #1b1b1b; border: 1px solid #2c2c2c; border-radius: 16px; padding: 13px 14px; margin-bottom: 10px; }
+.inv-card b { font-size: 15.5px; }
+.inv-card p { margin: 4px 0 0; color: #b9b9c0; font-size: 13.5px; line-height: 1.45; }
+.inv-link-label { font-size: 12.5px; color: #9a9aa2; font-weight: 700; margin: 12px 2px 6px; }
+.inv-link-field { background: #101010; border: 1px solid #2c2c2c; border-radius: 12px; padding: 11px 12px; font-size: 13px; word-break: break-all; color: #d7f5e8; }
+.inv-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.lvl-glow { position: absolute; top: -70px; left: 50%; transform: translateX(-50%); width: 260px; height: 150px; border-radius: 50%; filter: blur(46px); opacity: .55; pointer-events: none; }
+.lvl-lock-img { width: 100%; border-radius: 18px; display: block; margin-bottom: 14px; }
+.lvl-lock-t { font-size: 19px; margin: 0 0 8px; }
+.lvl-lock-x { color: #b9b9c0; line-height: 1.5; margin: 0 0 16px; }
+</style>
+<script>
+/* ===== Фази F/G: реферальні рівні та шит запрошення, профіль, стейкінг-заглушки ===== */
+(function () {
+  var GRAM_SM = '<svg viewBox="0 0 84 78" width="11.9" height="11.05" style="vertical-align:-1px" aria-hidden="true"><path d="M25 6 L59 6 L81 25 L42 74 L3 25 Z M53 19 Q55 33.5 65 36 Q55 38.5 53 53 Q51 38.5 41 36 Q51 33.5 53 19 Z" fill="#fff" fill-rule="evenodd"/></svg>';
+  function $(id) { return document.getElementById(id); }
+  function myTgId() { try { return (Telegram.WebApp.initDataUnsafe.user || {}).id || null; } catch (e) { return null; } }
+  function refLink() {
+    if (state.tpProfile && state.tpProfile.ref_link) return state.tpProfile.ref_link;
+    var id = myTgId();
+    return id ? "https://t.me/TropicPortBot?start=ref_" + id : "";
+  }
+  /* Верхній тост — той самий механізм .toast-top, що й тост кошика. */
+  var _tpTt = null;
+  window.tpTopToast = function (text) {
+    var old = document.querySelector(".toast-top"); if (old) old.remove();
+    clearTimeout(_tpTt);
+    var d = document.createElement("div");
+    d.className = "toast-top"; d.setAttribute("role", "status");
+    d.innerHTML = "<span>" + text + "</span>";
+    document.body.appendChild(d);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { d.classList.add("show"); }); });
+    function dismiss() { clearTimeout(_tpTt); d.classList.remove("show"); setTimeout(function () { d.remove(); }, 330); }
+    _tpTt = setTimeout(dismiss, 2600);
+    d.addEventListener("click", dismiss);
+  };
+
+  /* ---------- Профіль: дані з /api/profile (рефералка + лічильники угод) ---------- */
+  function tpLoadProfileRef() {
+    return tpApi("/api/profile").then(function (p) {
+      state.tpProfile = p;
+      if (typeof p.balance === "number") { state.balance = p.balance; renderBalance(); }
+      var lvl = $("ref-level-label"); if (lvl) lvl.textContent = t("ref_level_word") + " TropicPort " + (p.ref_level || 1);
+      var pct = $("ref-pct"); if (pct) pct.textContent = Math.round((p.ref_rate || 0.2) * 100) + "%";
+      var e = $("rf-earn"); if (e) e.innerHTML = fmt(p.ref_earned || 0) + " " + GRAM_SM;
+      var r = $("rf-refs"); if (r) r.textContent = p.invited_count || 0;
+      var v = $("rf-vol"); if (v) v.innerHTML = fmt(p.ref_volume || 0) + " " + GRAM_SM;
+      var lt = $("ref-link-text"); if (lt) lt.textContent = p.ref_link || "";
+      var bs = $("pf-bs"); if (bs) bs.textContent = (p.deals_bought || 0) + "/" + (p.deals_sold || 0);
+      var vol = $("pf-vol"); if (vol) vol.textContent = fmt(p.deals_volume || 0);
+    }).catch(function () {});
+  }
+
+  /* ---------- Шит запрошення ---------- */
+  window.tpOpenInvite = function () {
+    var link = refLink();
+    openSheetEl(
+      '<div class="inv-banner"><div class="inv-banner-t">Referral program</div><span class="inv-pill">' + t("ref_upto") + '</span></div>' +
+      '<div class="inv-card"><b>' + t("ref_upto") + '</b><p>' + t("ref_main_s") + '</p></div>' +
+      '<div class="inv-card"><p>' + t("ref_explain") + '</p></div>' +
+      '<div class="inv-link-label">' + t("ref_your_link") + '</div>' +
+      '<div class="inv-link-field">' + link + '</div>' +
+      '<div class="inv-btns"><button type="button" class="btn" id="inv-copy">' + t("ref_copy") + '</button>' +
+      '<button type="button" class="btn primary" id="inv-share">' + t("ref_share") + '</button></div>');
+    $("inv-copy").addEventListener("click", function () {
+      var done = function () { toastMsg(t("ref_copied")); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(done, done); else done();
+    });
+    $("inv-share").addEventListener("click", function () {
+      var u = "https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + encodeURIComponent(t("ref_share_text"));
+      try { Telegram.WebApp.openTelegramLink(u); } catch (e) { window.open(u, "_blank"); }
+    });
+  };
+
+  /* ---------- Екран рівнів ---------- */
+  var refData = null, refPeriod = "all";
+  var LVL_COLORS = ["", "linear-gradient(135deg,#14532d,#0b3524)", "linear-gradient(135deg,#0e5a4a,#083b31)", "linear-gradient(135deg,#166b8a,#0b3d54)", "linear-gradient(135deg,#0f766e,#134e4a)", "linear-gradient(135deg,#15803d,#14532d)", "linear-gradient(135deg,#92600f,#5f3d08)"];
+  var LVL_GLOW = ["", "#14532d", "#0e5a4a", "#166b8a", "#14b8a6", "#22c55e", "#d29a4a"];
+  function tpLoadLevels() {
+    return tpApi("/api/referral").then(function (d) { refData = d; renderRefScreen(); }).catch(function () {});
+  }
+  function renderRefScreen() {
+    if (!refData) return;
+    $("rl-ref-balance").innerHTML = fmt(refData.ref_balance) + " " + GRAM_SM;
+    renderRefStats(); renderRefCarousel(); renderRefList();
+  }
+  function renderRefStats() {
+    if (!refData) return;
+    var s = refData.stats[refPeriod] || refData.stats.all;
+    $("rl-st-earned").innerHTML = fmt(s.earned) + " " + GRAM_SM;
+    $("rl-st-volume").innerHTML = fmt(s.volume) + " " + GRAM_SM;
+    $("rl-st-invited").textContent = s.invited;
+    $("rl-st-gifts").textContent = s.gifts_bought;
+    document.querySelectorAll("[data-rp]").forEach(function (b) { b.classList.toggle("on", b.dataset.rp === refPeriod); });
+  }
+  function renderRefCarousel() {
+    var vol = refData.volume;
+    $("ref-carousel").innerHTML = refData.levels.map(function (L) {
+      var cur = L.current, locked = !L.unlocked;
+      var name = L.level === 6 ? t("ref_special_name") + " ⚡" : t("ref_level_word") + " " + L.level;
+      var range = fmt(L.from) + " – " + (L.to == null ? "∞" : fmt(L.to)) + " GRAM";
+      var prog = "";
+      if (cur && L.to != null) {
+        var pc = Math.max(0, Math.min(100, (vol - L.from) / (L.to - L.from) * 100));
+        prog = '<div class="lvl-prog"><i style="width:' + pc + '%"></i></div><div class="lvl-prog-t">' + fmt(vol) + " / " + fmt(L.to) + " GRAM</div>";
+      }
+      return '<div class="lvl-card' + (cur ? " cur" : "") + (locked ? " locked" : "") + '" data-lvl="' + L.level + '" style="background:' + LVL_COLORS[L.level] + '">' +
+        (L.special ? '<span class="lvl-spec">' + t("ref_special") + '</span>' : "") +
+        '<div class="lvl-name">' + name + '</div>' +
+        '<div class="lvl-rate">' + Math.round(L.rate * 100) + '%</div>' +
+        '<div class="lvl-range">' + range + '</div>' + prog +
+        (locked ? '<div class="lvl-lock">🔒</div>' : "") + '</div>';
+    }).join("");
+    document.querySelectorAll(".lvl-card.locked").forEach(function (c) {
+      c.addEventListener("click", function () { tpLockedSheet(parseInt(c.dataset.lvl, 10)); });
+    });
+  }
+  function renderRefList() {
+    var el = $("ref-list");
+    if (!refData.referrals.length) { el.innerHTML = '<p class="empty">' + t("ref_none") + '</p>'; return; }
+    el.innerHTML = refData.referrals.map(function (r, i) {
+      var nm = r.username ? "@" + r.username : (r.first_name || "—");
+      var ini = (r.username || r.first_name || "?").slice(0, 1).toUpperCase();
+      var dt = r.invited_at ? new Date(r.invited_at * 1000).toLocaleDateString() : "";
+      return '<div class="ref-row"><span class="ref-num">' + (i + 1) + '</span><span class="ref-ava">' + ini + '</span>' +
+        '<span class="ref-main"><b>' + nm + '</b><small>' + dt + '</small></span>' +
+        '<span class="ref-bs">' + r.bought + " / " + r.sold + '</span>' +
+        '<b class="ref-earned">' + fmt(r.earned) + " " + GRAM_SM + '</b></div>';
+    }).join("");
+  }
+  /* Шит заблокованого особливого рівня: рендер Diamond Ring (Signet Ring у пулі нема). */
+  window.tpLockedSheet = function (lvl) {
+    var key = lvl === 4 ? "ref_locked_4" : lvl === 5 ? "ref_locked_5" : "ref_locked_6";
+    openSheetEl('<div class="lvl-glow" style="background:' + LVL_GLOW[lvl] + '"></div>' +
+      '<img class="lvl-lock-img" src="assets/renders/diamond-ring/019fb30a-1a1e-7f12-a68b-b45428beda12.jpg" alt="">' +
+      '<h3 class="lvl-lock-t">' + t("ref_locked_title") + '</h3>' +
+      '<p class="lvl-lock-x">' + t(key) + '</p>' +
+      '<button type="button" class="btn primary big" id="lvl-support">' + t("ref_support") + '</button>');
+    $("lvl-support").addEventListener("click", function () {
+      try { Telegram.WebApp.openTelegramLink("https://t.me/TropicPortSupportBot"); } catch (e) { window.open("https://t.me/TropicPortSupportBot", "_blank"); }
+    });
+  };
+
+  /* ---------- Проводка ---------- */
+  var gear = $("pf-gear"); if (gear) gear.addEventListener("click", function () { showScreen("settings"); });
+  var pill = $("pf-pill"); if (pill) pill.addEventListener("click", function () { if (window.openWallet) window.openWallet(); });
+  var invB = $("pf-inv-block"); if (invB) invB.addEventListener("click", function () { showScreen("gifts"); });
+  ["stake-gifts", "stake-gram"].forEach(function (id) {
+    var b = $(id); if (b) b.addEventListener("click", function () { tpTopToast(t("stake_soon")); });
+  });
+  var pl = $("ref-plaque"); if (pl) pl.addEventListener("click", function () { showScreen("referral"); });
+  var rb = $("ref-back"); if (rb) rb.addEventListener("click", function () { showScreen("profile"); });
+  var ri2 = $("ref-invite2"); if (ri2) ri2.addEventListener("click", function () { window.tpOpenInvite(); });
+  var claim = $("ref-claim");
+  if (claim) claim.addEventListener("click", function () {
+    tpApi("/api/referral/claim", { method: "POST", body: {} }).then(function (r) {
+      if (typeof r.balance === "number") { state.balance = r.balance; renderBalance(); }
+      toastMsg(t("ref_claimed") + ": " + fmt(r.claimed || 0) + " GRAM");
+      tpLoadLevels(); tpLoadProfileRef();
+    }).catch(function () { toastMsg(t("api_unavailable")); });
+  });
+  document.querySelectorAll("[data-rp]").forEach(function (b) {
+    b.addEventListener("click", function () { refPeriod = b.dataset.rp; renderRefStats(); });
+  });
+  var _prevShow2 = showScreen;
+  showScreen = function (n) {
+    _prevShow2(n);
+    if (n === "profile") tpLoadProfileRef();
+    if (n === "referral") tpLoadLevels();
+  };
+  tpLoadProfileRef();
+})();
+</script>
+<script>
+/* ===== Фази F/G: переклади (реферальні рівні, профіль, стейкінг) ===== */
+Object.assign(I18N.en, { ref_level_word: "Level", ref_more: "More", ref_upto: "Up to 50% in GRAM", ref_main_s: "Earn from your friends' purchases", ref_explain: "Your share of the market fee (the fee is 1%) from each friend's deal is credited to your referral balance. Your rate grows with your friends' total volume — from 20% to 50% of the fee.", ref_your_link: "Your link for friends", ref_copy: "Copy", ref_copied: "Link copied", ref_share: "Share", ref_share_text: "Trade NFT gifts on TropicPort — fee only 1%!", ref_claim: "Claim", ref_claimed: "Claimed", ref_stats: "Statistics", ref_tab_all: "All", ref_st_earned: "Earned from fees", ref_st_volume: "Referral purchases", ref_st_invited: "Invited friends", ref_st_gifts: "Gifts bought", ref_special: "SPECIAL", ref_special_name: "Special", ref_locked_title: "Special level", ref_locked_4: "To access level 4, reach level 3.", ref_locked_5: "To access level 5, reach level 4.", ref_locked_6: "To access the special level, reach level 5.", ref_support: "Support", ref_none: "No referrals yet", ref_col_bs: "Bought / Sold", pf_inventory: "Inventory", stake_gifts: "Gift staking", stake_gram: "GRAM staking", stake_soon: "Staking is coming soon", ref_levels_title: "Referral levels" });
+Object.assign(I18N.uk, { ref_level_word: "Рівень", ref_more: "Більше", ref_upto: "До 50% в GRAM", ref_main_s: "Заробляйте на покупках друзів", ref_explain: "Твоя частка комісії маркета (комісія 1%) з кожної угоди друга нараховується на твій реферальний баланс. Ставка зростає з обсягом друзів — від 20% до 50% комісії.", ref_your_link: "Твоє посилання для друзів", ref_copy: "Копіювати", ref_copied: "Посилання скопійовано", ref_share: "Поділитись", ref_share_text: "Торгуй NFT-подарунками на TropicPort — комісія лише 1%!", ref_claim: "Отримати", ref_claimed: "Отримано", ref_stats: "Статистика", ref_tab_all: "Все", ref_st_earned: "Зароблено з комісії", ref_st_volume: "Покупки рефералів", ref_st_invited: "Запрошені друзі", ref_st_gifts: "Подарунків куплено", ref_special: "ОСОБЛИВИЙ", ref_special_name: "Особливий", ref_locked_title: "Спеціальний рівень", ref_locked_4: "Щоб отримати доступ до рівня 4, досягніть рівня 3.", ref_locked_5: "Щоб отримати доступ до рівня 5, досягніть рівня 4.", ref_locked_6: "Щоб отримати доступ до особливого рівня, досягніть рівня 5.", ref_support: "Підтримка", ref_none: "Рефералів поки нема", ref_col_bs: "Куплено / Продано", pf_inventory: "Інвентар", stake_gifts: "Стейкінг подарунків", stake_gram: "Стейкінг GRAM", stake_soon: "Стейкінг скоро зʼявиться", ref_levels_title: "Рівні рефералів" });
+Object.assign(I18N.ru, { ref_level_word: "Уровень", ref_more: "Больше", ref_upto: "До 50% в GRAM", ref_main_s: "Зарабатывайте на покупках друзей", ref_explain: "Ваша доля комиссии маркета (комиссия 1%) с каждой сделки друга начисляется на ваш реферальный баланс. Ставка растёт с объёмом друзей — от 20% до 50% комиссии.", ref_your_link: "Ваша ссылка для друзей", ref_copy: "Копировать", ref_copied: "Ссылка скопирована", ref_share: "Поделиться", ref_share_text: "Торгуй NFT-подарками на TropicPort — комиссия всего 1%!", ref_claim: "Получить", ref_claimed: "Получено", ref_stats: "Статистика", ref_tab_all: "Все", ref_st_earned: "Заработано с комиссии", ref_st_volume: "Покупки рефералов", ref_st_invited: "Приглашенные друзья", ref_st_gifts: "Подарков куплено", ref_special: "ОСОБЕННЫЙ", ref_special_name: "Особенный", ref_locked_title: "Специальный уровень", ref_locked_4: "Чтобы получить доступ к уровню 4, достигните уровня 3.", ref_locked_5: "Чтобы получить доступ к уровню 5, достигните уровня 4.", ref_locked_6: "Чтобы получить доступ к уровню особенный, достигните уровня 5.", ref_support: "Поддержка", ref_none: "Рефералов пока нет", ref_col_bs: "Куплено / Продано", pf_inventory: "Инвентарь", stake_gifts: "Стейкинг гифтов", stake_gram: "Стейкинг GRAM", stake_soon: "Стейкинг скоро появится", ref_levels_title: "Уровни рефералов" });
+Object.assign(I18N.zh, { ref_level_word: "级别", ref_more: "更多", ref_upto: "高达 50% GRAM", ref_main_s: "从朋友的购买中赚钱", ref_explain: "每笔好友交易中市场佣金（佣金 1%）属于您的份额将记入您的推荐余额。您的费率随好友总交易量增长——从佣金的 20% 到 50%。", ref_your_link: "您的朋友链接", ref_copy: "复制", ref_copied: "链接已复制", ref_share: "分享", ref_share_text: "在 TropicPort 交易 NFT 礼物——佣金仅 1%！", ref_claim: "领取", ref_claimed: "已领取", ref_stats: "统计", ref_tab_all: "全部", ref_st_earned: "佣金收入", ref_st_volume: "推荐购买", ref_st_invited: "受邀朋友", ref_st_gifts: "已购礼物", ref_special: "特别", ref_special_name: "特别", ref_locked_title: "特别级别", ref_locked_4: "要访问 4 级，请达到 3 级。", ref_locked_5: "要访问 5 级，请达到 4 级。", ref_locked_6: "要访问特别级别，请达到 5 级。", ref_support: "支持", ref_none: "暂无推荐", ref_col_bs: "买入 / 卖出", pf_inventory: "库存", stake_gifts: "礼物质押", stake_gram: "GRAM 质押", stake_soon: "质押即将推出", ref_levels_title: "推荐级别" });
+Object.assign(I18N.ja, { ref_level_word: "レベル", ref_more: "もっと見る", ref_upto: "最大50% GRAM", ref_main_s: "友達の購入で稼ぐ", ref_explain: "友達の取引ごとに、マーケット手数料（手数料1%）のあなたの取り分が紹介残高に加算されます。レートは友達の総取引量に応じて手数料の20%から50%まで上がります。", ref_your_link: "友達用リンク", ref_copy: "コピー", ref_copied: "リンクをコピーしました", ref_share: "共有", ref_share_text: "TropicPortでNFTギフトを取引 — 手数料はわずか1%！", ref_claim: "受け取る", ref_claimed: "受け取り済み", ref_stats: "統計", ref_tab_all: "すべて", ref_st_earned: "手数料収益", ref_st_volume: "紹介購入", ref_st_invited: "招待した友達", ref_st_gifts: "購入したギフト", ref_special: "特別", ref_special_name: "特別", ref_locked_title: "特別レベル", ref_locked_4: "レベル4にアクセスするには、レベル3に到達してください。", ref_locked_5: "レベル5にアクセスするには、レベル4に到達してください。", ref_locked_6: "特別レベルにアクセスするには、レベル5に到達してください。", ref_support: "サポート", ref_none: "紹介はまだありません", ref_col_bs: "購入 / 販売", pf_inventory: "インベントリ", stake_gifts: "ギフトステーキング", stake_gram: "GRAMステーキング", stake_soon: "ステーキングは近日公開", ref_levels_title: "紹介レベル" });
+Object.assign(I18N.fa, { ref_level_word: "سطح", ref_more: "بیشتر", ref_upto: "تا 50% در GRAM", ref_main_s: "از خرید دوستانتان کسب درآمد کنید", ref_explain: "سهم شما از کارمزد بازار (کارمزد ۱٪) از هر معامله دوستتان به موجودی ارجاع شما اضافه می‌شود. نرخ شما با حجم کل دوستانتان رشد می‌کند — از ۲۰٪ تا ۵۰٪ کارمزد.", ref_your_link: "لینک شما برای دوستان", ref_copy: "کپی", ref_copied: "لینک کپی شد", ref_share: "اشتراک‌گذاری", ref_share_text: "در TropicPort هدیه‌های NFT معامله کنید — کارمزد فقط ۱٪!", ref_claim: "دریافت", ref_claimed: "دریافت شد", ref_stats: "آمار", ref_tab_all: "همه", ref_st_earned: "درآمد از کارمزد", ref_st_volume: "خریدهای ارجاعی", ref_st_invited: "دوستان دعوت‌شده", ref_st_gifts: "هدیه‌های خریده‌شده", ref_special: "ویژه", ref_special_name: "ویژه", ref_locked_title: "سطح ویژه", ref_locked_4: "برای دسترسی به سطح ۴، به سطح ۳ برسید.", ref_locked_5: "برای دسترسی به سطح ۵، به سطح ۴ برسید.", ref_locked_6: "برای دسترسی به سطح ویژه، به سطح ۵ برسید.", ref_support: "پشتیبانی", ref_none: "هنوز ارجاعی نیست", ref_col_bs: "خریده / فروخته", pf_inventory: "موجودی", stake_gifts: "استیکینگ هدیه", stake_gram: "استیکینگ GRAM", stake_soon: "استیکینگ به‌زودی می‌آید", ref_levels_title: "سطوح ارجاع" });
+Object.assign(I18N.ko, { ref_level_word: "레벨", ref_more: "더보기", ref_upto: "최대 50% GRAM", ref_main_s: "친구의 구매로 수익 얻기", ref_explain: "친구의 각 거래에서 마켓 수수료(수수료 1%) 중 당신의 몫이 추천 잔액에 적립됩니다. 비율은 친구들의 총 거래량에 따라 수수료의 20%에서 50%까지 오릅니다.", ref_your_link: "친구용 링크", ref_copy: "복사", ref_copied: "링크가 복사되었습니다", ref_share: "공유", ref_share_text: "TropicPort에서 NFT 선물을 거래하세요 — 수수료 단 1%!", ref_claim: "받기", ref_claimed: "받음", ref_stats: "통계", ref_tab_all: "전체", ref_st_earned: "수수료 수익", ref_st_volume: "추천 구매", ref_st_invited: "초대한 친구", ref_st_gifts: "구매한 선물", ref_special: "특별", ref_special_name: "특별", ref_locked_title: "특별 레벨", ref_locked_4: "레벨 4에 접근하려면 레벨 3에 도달하세요.", ref_locked_5: "레벨 5에 접근하려면 레벨 4에 도달하세요.", ref_locked_6: "특별 레벨에 접근하려면 레벨 5에 도달하세요.", ref_support: "지원", ref_none: "아직 추천이 없습니다", ref_col_bs: "구매 / 판매", pf_inventory: "인벤토리", stake_gifts: "선물 스테이킹", stake_gram: "GRAM 스테이킹", stake_soon: "스테이킹이 곧 출시됩니다", ref_levels_title: "추천 레벨" });
+Object.assign(I18N.tr, { ref_level_word: "Seviye", ref_more: "Daha fazla", ref_upto: "%50'ye kadar GRAM", ref_main_s: "Arkadaşlarınızın alımlarından kazanın", ref_explain: "Her arkadaş işleminde pazar komisyonundan (komisyon %1) payınız referans bakiyenize eklenir. Oranınız, arkadaşlarınızın toplam hacmiyle komisyonun %20'sinden %50'sine kadar büyür.", ref_your_link: "Arkadaşlarınız için bağlantınız", ref_copy: "Kopyala", ref_copied: "Bağlantı kopyalandı", ref_share: "Paylaş", ref_share_text: "TropicPort'ta NFT hediyeleri alıp satın — komisyon sadece %1!", ref_claim: "Al", ref_claimed: "Alındı", ref_stats: "İstatistik", ref_tab_all: "Tümü", ref_st_earned: "Komisyon kazancı", ref_st_volume: "Referans alımları", ref_st_invited: "Davet edilen arkadaşlar", ref_st_gifts: "Alınan hediyeler", ref_special: "ÖZEL", ref_special_name: "Özel", ref_locked_title: "Özel seviye", ref_locked_4: "Seviye 4'e erişmek için seviye 3'e ulaşın.", ref_locked_5: "Seviye 5'e erişmek için seviye 4'e ulaşın.", ref_locked_6: "Özel seviyeye erişmek için seviye 5'e ulaşın.", ref_support: "Destek", ref_none: "Henüz referans yok", ref_col_bs: "Alındı / Satıldı", pf_inventory: "Envanter", stake_gifts: "Hediye staking", stake_gram: "GRAM staking", stake_soon: "Staking yakında geliyor", ref_levels_title: "Referans seviyeleri" });
 </script>
 </body>
 </html>
