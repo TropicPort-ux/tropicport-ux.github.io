@@ -2711,66 +2711,9 @@ function bdBg(name) {
     "radial-gradient(circle at 50% 40%, " + b.center + " 0%, " + b.edge + " 80%)";
 }
 
-// Лот: id, collection, number, price (GRAM), floor колекції,
-// трейты: model / backdrop / symbol + їх рідкість у % + флор-ціна трейта.
-const LOTS = [
-  { id: 1,  collection: "Lucky Locket",  number: 1794,  price: 15.34, floor: 15.34,
-    model: "Attack Relic",    modelPct: null, modelFloor: null,
-    backdrop: "Malachite",   backdropPct: null, backdropFloor: null,
-    symbol: "Paper Lantern",       symbolPct: null, symbolFloor: null },
-  { id: 2,  collection: "Victory Medal", number: 34307,  price: 5.35,  floor: 5.35,
-    model: "Nice Try",   modelPct: null, modelFloor: null,
-    backdrop: "Neon Blue",      backdropPct: null, backdropFloor: null,
-    symbol: "Moose Head",         symbolPct: null, symbolFloor: null },
-  { id: 3,  collection: "Ionic Dryer",   number: 15937,  price: 18,  floor: 18,
-    model: "Tyson", modelPct: null, modelFloor: null,
-    backdrop: "Silver Blue", backdropPct: null, backdropFloor: null,
-    symbol: "Heater Shield",   symbolPct: null, symbolFloor: null },
-  { id: 4,  collection: "Fine Pen",      number: 8459,  price: 9,   floor: 9,
-    model: "Mesh Maker",       modelPct: null, modelFloor: null,
-    backdrop: "Lavender", backdropPct: null, backdropFloor: null,
-    symbol: "La Corona",        symbolPct: null, symbolFloor: null },
-  { id: 5,  collection: "Mood Pack",     number: 174096, price: 5.35,   floor: 5.35,
-    model: "Crystal Scarab",      modelPct: null, modelFloor: null,
-    backdrop: "Coral Red",      backdropPct: null, backdropFloor: null,
-    symbol: "Champagne",     symbolPct: null, symbolFloor: null },
-  { id: 6,  collection: "Mood Pack",     number: 31394,  price: 5.35,   floor: 5.35,
-    model: "Rodeo King",      modelPct: null, modelFloor: null,
-    backdrop: "Neon Blue",       backdropPct: null, backdropFloor: null,
-    symbol: "Peace Dove",  symbolPct: null, symbolFloor: null },
-  { id: 7,  collection: "Mirage Lamp",   number: 21491,  price: 4.75,   floor: 4.75,
-    model: "Celestia",         modelPct: null, modelFloor: null,
-    backdrop: "Pacific Green",       backdropPct: null, backdropFloor: null,
-    symbol: "Toy Bucket",      symbolPct: null, symbolFloor: null },
-  { id: 8,  collection: "Lunar Snake",   number: 155078, price: 4.59,   floor: 4.59,
-    model: "Gold Quartz",     modelPct: null, modelFloor: null,
-    backdrop: "Pistachio",    backdropPct: null, backdropFloor: null,
-    symbol: "Venetian Mask",     symbolPct: null, symbolFloor: null },
-  { id: 9,  collection: "Trapped Heart", number: 10053,  price: 20.83,  floor: 20.83,
-    model: "Cold-Hearted",     modelPct: null, modelFloor: null,
-    backdrop: "Aquamarine", backdropPct: null, backdropFloor: null,
-    symbol: "Illuminati",        symbolPct: null, symbolFloor: null },
-  { id: 10, collection: "Plush Pepe",    number: 1165,   price: 6949,  floor: 6949,
-    model: "Polka Dots", modelPct: null, modelFloor: null,
-    backdrop: "Onyx Black", backdropPct: null, backdropFloor: null,
-    symbol: "Watermelon",         symbolPct: null, symbolFloor: null },
-  { id: 11, collection: "Durov's Cap",   number: 986,    price: 434.97, floor: 434.97,
-    model: "Pink Pop",   modelPct: null, modelFloor: null,
-    backdrop: "Malachite",       backdropPct: null, backdropFloor: null,
-    symbol: "Tulip",  symbolPct: null, symbolFloor: null },
-  { id: 12, collection: "Lol Pop",       number: 24176,   price: 4.69,  floor: 4.69,
-    model: "Gobstopper",         modelPct: null, modelFloor: null,
-    backdrop: "Light Olive",       backdropPct: null, backdropFloor: null,
-    symbol: "Viking Shield",       symbolPct: null, symbolFloor: null },
-  { id: 13, collection: "Candy Cane",    number: 120513, price: 4.67,  floor: 4.67,
-    model: "Silver Frost",       modelPct: null, modelFloor: null,
-    backdrop: "Fire Engine",      backdropPct: null, backdropFloor: null,
-    symbol: "Hot Drink",         symbolPct: null, symbolFloor: null },
-  { id: 14, collection: "Ionic Dryer",   number: 11711,   price: 18, floor: 18,
-    model: "Ace Machine",          modelPct: null, modelFloor: null,
-    backdrop: "Seal Brown",      backdropPct: null, backdropFloor: null,
-    symbol: "Tamagotchi",         symbolPct: null, symbolFloor: null }
-];
+// ЛОТИ СТАТИЧНОГО КАТАЛОГУ ПРИБРАНО: єдине джерело торгівлі — GET /api/listings
+// (loadMarket у фінальному блоці «СПРАВЖНЯ ТОРГІВЛЯ»). state.lots стартує порожнім;
+// вітринних лотів, які можна «купити» локально, більше не існує як класу.
 
 // Подарунки поточного користувача: listed=false → вкладка Unlisted. Порожньо, доки нема справжніх депозитів.
 const MY_GIFTS = [];
@@ -2818,8 +2761,8 @@ if (tg) { tg.ready(); tg.expand(); }
 
 const state = {
   balance: START_BALANCE,
-  lots: LOTS.map(l => ({ ...l, sold: false })),
-  myGifts: MY_GIFTS.map(g => ({ ...g })),
+  lots: [],            // тільки GET /api/listings (loadMarket)
+  myGifts: [],         // тільки GET /api/my-gifts (loadMarket)
   cart: [],            // id лотів
   deals: [],           // куплені лоти
   offers: [],          // створені оффери на колекції
@@ -2900,10 +2843,8 @@ function fillFilter(select, values) {
     select.appendChild(o);
   });
 }
-fillFilter($("#f-collection"), COLLECTIONS.map(c => c.name));
-fillFilter($("#f-model"), [...new Set(LOTS.map(l => l.model))]);
-fillFilter($("#f-back"), [...new Set(LOTS.map(l => l.backdrop))]);
-fillFilter($("#f-symbol"), [...new Set(LOTS.map(l => l.symbol))]);
+/* Фільтри НЕ сідяться статично: rebuildFilterSelects() у loadMarket будує
+   #f-collection/#f-model/#f-back/#f-symbol із поточного state.lots. */
 
 function filteredLots() {
   const q = $("#search").value.trim().toLowerCase();
@@ -9751,6 +9692,426 @@ Object.assign(I18N.tr, { w_conn_wallet: "Bağlı cüzdan", wd_addr_l: "Cüzdan a
    pf_inventory, ref_more) лишались СИРИМИ КЛЮЧАМИ. Застосовуємо переклад
    до всього документа ще раз, коли словник уже повний. */
 applyLang();
+</script>
+<style>
+/* ===== СПРАВЖНЯ ТОРГІВЛЯ: бейдж переказу й підказка невдалого переказу ===== */
+.gift-transferring { font-weight: 700; color: #c9a86a; font-size: 13px; }
+.gift-task-failed { color: #ff7a7a; font-size: 12.5px; margin-top: 4px; }
+</style>
+<script>
+/* ===== СПРАВЖНЯ ТОРГІВЛЯ: фронтенд ↔ API бекенда =====
+   Джерело істини — ТІЛЬКИ сервер: GET /api/listings (маркет), /api/my-gifts,
+   /api/offers, /api/gift-tasks, /api/profile. Жодних локальних мутацій
+   «sold/listed» як джерела істини: кожна дія — POST на бекенд, після неї
+   loadMarket() перечитує весь стан і перерендерює екрани. */
+Object.assign(I18N.en, { market_empty: "No lots yet — new gifts will appear here soon.", add_instr: "Send a gift from your Telegram to @TropicPortBank — it will appear here as Unlisted within a few seconds.", wd_title: "Withdraw gift", wd_fee_line: "Fee: {fee} GRAM", wd_confirm: "Withdraw", wd_queued: "Withdrawal queued — the gift is on its way to your account.", send_title: "Send gift", send_to_ph: "@username or Telegram ID", send_confirm: "Send", send_queued: "Sending queued — the gift will be delivered shortly.", transferring: "Transferring…", transfer_failed: "The last transfer failed — the gift is back in your inventory.", offer_accept: "Accept", offer_cancel: "Cancel", offer_status_active: "Active", offer_status_filled: "Filled", offer_status_cancelled: "Cancelled", offer_status_expired: "Expired", offer_locked: "Locked", offer_created_lot: "Offer created: {price} GRAM for {days} days.", pick_gift: "Pick a gift" });
+Object.assign(I18N.uk, { market_empty: "Лотів поки нема — нові подарунки зʼявляться тут незабаром.", add_instr: "Надішли подарунок зі свого Telegram на @TropicPortBank — він зʼявиться тут як Unlisted за кілька секунд.", wd_title: "Вивід подарунка", wd_fee_line: "Комісія: {fee} GRAM", wd_confirm: "Вивести", wd_queued: "Вивід поставлено в чергу — подарунок уже прямує на твій акаунт.", send_title: "Надіслати подарунок", send_to_ph: "@username або Telegram ID", send_confirm: "Надіслати", send_queued: "Надсилання в черзі — подарунок буде доставлено найближчим часом.", transferring: "Переказ…", transfer_failed: "Останній переказ не вдався — подарунок знову у твоєму інвентарі.", offer_accept: "Прийняти", offer_cancel: "Скасувати", offer_status_active: "Активний", offer_status_filled: "Виконано", offer_status_cancelled: "Скасовано", offer_status_expired: "Минув", offer_locked: "Заблоковано", offer_created_lot: "Оффер створено: {price} GRAM на {days} дн.", pick_gift: "Оберіть подарунок" });
+Object.assign(I18N.ru, { market_empty: "Лотов пока нет — новые подарки появятся здесь скоро.", add_instr: "Отправьте подарок из своего Telegram на @TropicPortBank — он появится здесь как Unlisted через несколько секунд.", wd_title: "Вывод подарка", wd_fee_line: "Комиссия: {fee} GRAM", wd_confirm: "Вывести", wd_queued: "Вывод поставлен в очередь — подарок уже направляется на ваш аккаунт.", send_title: "Отправить подарок", send_to_ph: "@username или Telegram ID", send_confirm: "Отправить", send_queued: "Отправка в очереди — подарок будет доставлен в ближайшее время.", transferring: "Перевод…", transfer_failed: "Последний перевод не удался — подарок снова в вашем инвентаре.", offer_accept: "Принять", offer_cancel: "Отменить", offer_status_active: "Активен", offer_status_filled: "Исполнен", offer_status_cancelled: "Отменён", offer_status_expired: "Истёк", offer_locked: "Заблокировано", offer_created_lot: "Оффер создан: {price} GRAM на {days} дн.", pick_gift: "Выберите подарок" });
+/* Інші мови (zh/ja/fa/ko/tr) цих ключів не мають — t() падає на en, як і для решти пізніх ключів. */
+
+state.offersData = { placed: [], received: [] };
+state.giftTasks = [];
+
+/* ---------- Профіль: locked / available — окремо від загального балансу ---------- */
+var _tpRefreshProfileTrade = tpRefreshProfile;
+tpRefreshProfile = function () {
+  return _tpRefreshProfileTrade().then(function (p) {
+    if (p) {
+      state.tpProfile = p;
+      if (typeof p.locked_gram === "number") state.locked = p.locked_gram;
+      if (typeof p.available_gram === "number") state.available = p.available_gram;
+    }
+    return p;
+  });
+};
+
+/* ---------- Slug-карти рендерів/анімацій/NFT (були за id 1..14 статичного каталогу) ---------- */
+function tpSlugOf(lot) {
+  if (!lot) return "";
+  if (lot.slug) return lot.slug;
+  var base = String(lot.collection || "").replace(/[^A-Za-z0-9 ]/g, "").split(" ").filter(Boolean).map(function (w) {
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join("");
+  return base ? base + "-" + lot.number : "";
+}
+var TP_RENDER_BY_SLUG = {}, TP_ANIM_BY_SLUG = {};
+Object.keys(LOT_NFT).forEach(function (id) {
+  var key = String(LOT_NFT[id]).toLowerCase();
+  if (LOT_RENDER[id]) TP_RENDER_BY_SLUG[key] = LOT_RENDER[id];
+  if (LOT_ANIM[id]) TP_ANIM_BY_SLUG[key] = LOT_ANIM[id];
+});
+renderOf = function (lot) { return (lot && TP_RENDER_BY_SLUG[tpSlugOf(lot).toLowerCase()]) || ""; };
+animOf = function (lot) {
+  if (!lot) return "";
+  var key = tpSlugOf(lot).toLowerCase();
+  if (TP_ANIM_BY_SLUG[key]) return TP_ANIM_BY_SLUG[key];
+  /* Нема в slug-карті — імʼя файла за патерном пулу анімацій;
+     loadLotAnim при помилці завантаження лишає статичний рендер. */
+  var cslug = String(lot.collection || "").replace(/[^A-Za-z0-9]/g, "").toLowerCase();
+  return cslug ? cslug + "-" + lot.number + ".json.gz" : "";
+};
+nftOf = function (lot) { return tpSlugOf(lot); };
+/* loadLotAnim читає LOT_ANIM[lot.id] синхронно на старті — підставляємо
+   slug-файл поточного лота саме під його API-id перед викликом оригіналу. */
+var _tpLoadLotAnimTrade = loadLotAnim;
+loadLotAnim = function (container, imgEl, lot, autoplay) {
+  if (lot) { var f = animOf(lot); if (f) LOT_ANIM[lot.id] = f; }
+  return _tpLoadLotAnimTrade(container, imgEl, lot, autoplay);
+};
+
+/* ---------- Мапінг API → внутрішня форма лота/подарунка ---------- */
+function mapApiLot(r) {
+  var col = null;
+  for (var i = 0; i < COLLECTIONS.length; i++) if (COLLECTIONS[i].name === r.collection) { col = COLLECTIONS[i]; break; }
+  return {
+    id: r.id, owner_id: r.owner_id, collection: r.collection, number: r.number,
+    slug: r.slug || "",
+    model: r.model || "", modelPct: r.model_pct, modelFloor: r.model_floor,
+    backdrop: r.backdrop || "", backdropPct: r.backdrop_pct, backdropFloor: r.backdrop_floor,
+    symbol: r.symbol || "", symbolPct: r.symbol_pct, symbolFloor: r.symbol_floor,
+    price: r.price,
+    floor: (r.floor_price != null ? r.floor_price : (col ? col.floor : 0)),
+    status: r.status, sold: false,
+    listed: r.status === "listed", transferring: r.status === "transferring"
+  };
+}
+
+/* ---------- Фільтри: значення — з поточного state.lots ---------- */
+function rebuildFilterSelects() {
+  function uniq(key) {
+    var seen = {}, out = [];
+    state.lots.forEach(function (l) { var v = l[key]; if (v && !seen[v]) { seen[v] = 1; out.push(v); } });
+    return out;
+  }
+  [["f-collection", "collection"], ["f-model", "model"], ["f-back", "backdrop"], ["f-symbol", "symbol"]].forEach(function (pair) {
+    var sel = document.getElementById(pair[0]);
+    if (!sel) return;
+    var cur = sel.value, vals = uniq(pair[1]);
+    while (sel.options.length > 1) sel.remove(1);
+    fillFilter(sel, vals);
+    sel.value = (cur && vals.indexOf(cur) >= 0) ? cur : "";
+  });
+}
+
+/* ---------- Головне завантаження стану торгівлі ---------- */
+window.loadMarket = function () {
+  if (!TP_API_BASE) return Promise.resolve();
+  var jobs = [
+    tpApi("/api/listings").then(function (rows) { state.lots = (rows || []).map(mapApiLot); }).catch(function () {}),
+    tpApi("/api/my-gifts").then(function (rows) { state.myGifts = (rows || []).map(mapApiLot); }).catch(function () {}),
+    tpApi("/api/offers").then(function (d) {
+      state.offersData = d || { placed: [], received: [] };
+      state.offers = state.offersData.placed || [];
+    }).catch(function () {}),
+    tpApi("/api/gift-tasks").then(function (rows) { state.giftTasks = rows || []; }).catch(function () {}),
+    tpRefreshProfile().catch(function () {})
+  ];
+  return Promise.all(jobs).then(function () {
+    state.cart = state.cart.filter(function (id) {
+      return state.lots.some(function (l) { return l.id === id; });
+    });
+    rebuildFilterSelects();
+    renderGrid(); renderCart(); renderGifts();
+    if (typeof renderOffers === "function") renderOffers();
+    if (typeof fillProfile === "function") fillProfile();
+    if (typeof colDetail !== "undefined" && colDetail.name && typeof renderColGrid === "function") renderColGrid();
+  });
+};
+
+/* Порожній стан маркета: 0 лістингів узагалі — market_empty; фільтри дали
+   порожньо за наявних лотів — наявний grid_empty. */
+var _tpRenderGridTrade = renderGrid;
+renderGrid = function () {
+  _tpRenderGridTrade();
+  var ge = document.getElementById("grid-empty");
+  if (ge) ge.textContent = state.lots.length ? t("grid_empty") : t("market_empty");
+};
+
+/* ---------- Купівля: послідовні POST /api/buy, істина — сервер ---------- */
+buyLots = function (ids) {
+  var bdOpen = document.getElementById("buy-dialog");
+  if (bdOpen && bdOpen.open && window.closeDialogInstant) closeDialogInstant(bdOpen);
+  var lots = ids.map(function (id) {
+    return state.lots.find(function (l) { return l.id === id; });
+  }).filter(Boolean);
+  if (!lots.length) return;
+  var total = lots.reduce(function (s, l) { return s + l.price; }, 0);
+  var avail = (typeof state.available === "number") ? state.available : state.balance;
+  if (total > avail) { alertUser(t("not_enough")); return; }
+  var okCount = 0, chain = Promise.resolve();
+  lots.forEach(function (lot) {
+    chain = chain.then(function () {
+      return tpApi("/api/buy", { method: "POST", body: { listing_id: lot.id } }).then(function (r) {
+        okCount++;
+        state.deals.push({ id: lot.id, collection: lot.collection, number: lot.number,
+          price: (r && typeof r.price === "number") ? r.price : lot.price });
+        state.cart = state.cart.filter(function (x) { return x !== lot.id; });
+      }).catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+    });
+  });
+  chain.then(function () { return loadMarket(); }).then(function () {
+    renderCart();
+    if (okCount > 0) alertUser(t("buy_success"));
+    showScreen("store");
+  });
+};
+
+/* ---------- Мої подарунки: transferring-бейдж і підказка про невдалий переказ ---------- */
+var _tpRenderGiftsTrade = renderGifts;
+renderGifts = function () {
+  _tpRenderGiftsTrade();
+  var lastTask = {};
+  (state.giftTasks || []).forEach(function (tk) { if (!lastTask[tk.gift_id]) lastTask[tk.gift_id] = tk; });
+  document.querySelectorAll("#gifts-list .gift-item").forEach(function (item) {
+    var anyBtn = item.querySelector("[data-id]");
+    if (!anyBtn) return;
+    var g = state.myGifts.find(function (x) { return x.id === +anyBtn.dataset.id; });
+    if (!g) return;
+    if (g.transferring) {
+      var actions = item.querySelector(".gift-actions");
+      if (actions) actions.innerHTML = '<span class="gift-transferring">' + t("transferring") + "</span>";
+    } else if (!g.listed && lastTask[g.id] && lastTask[g.id].status === "failed") {
+      var grow = item.querySelector(".grow");
+      if (grow && !grow.querySelector(".gift-task-failed")) {
+        var hint = document.createElement("div");
+        hint.className = "gift-task-failed";
+        hint.textContent = t("transfer_failed");
+        grow.appendChild(hint);
+      }
+    }
+  });
+};
+
+/* ---------- Дії з подарунками: усе через API, STUB-и більше не використовуються ---------- */
+function openAddInstruction() {
+  openSheetEl('<h2 class="sh-title">' + t("act_add") + '</h2><p class="dep-text">' + t("add_instr") + '</p>' +
+    '<div class="sh-btns"><button class="btn primary big" id="add-instr-ok" type="button">' + t("stub_ok") + "</button></div>");
+  document.getElementById("add-instr-ok").addEventListener("click", closeSheet);
+}
+function openWithdrawConfirm(g) {
+  openSheetEl('<h2 class="sh-title">' + t("wd_title") + '</h2>' +
+    '<p class="dep-text"><b>' + g.collection + " #" + g.number + '</b></p>' +
+    '<p class="dep-text">' + t("wd_fee_line").replace("{fee}", "0.35") + '</p>' +
+    '<div class="sh-btns"><button class="btn big" id="wd-cancel" type="button">' + t("cancel_btn") + '</button>' +
+    '<button class="btn primary big" id="wd-ok" type="button">' + t("wd_confirm") + "</button></div>");
+  document.getElementById("wd-cancel").addEventListener("click", closeSheet);
+  document.getElementById("wd-ok").addEventListener("click", function () {
+    tpApi("/api/gifts/" + g.id + "/withdraw", { method: "POST", body: {} }).then(function () {
+      closeSheet(); toastMsg(t("wd_queued")); return loadMarket();
+    }).catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+  });
+}
+window.openSendSheet = function (gift) {
+  if (!gift) return;
+  openSheetEl('<h2 class="sh-title">' + t("send_title") + '</h2>' +
+    '<p class="dep-text"><b>' + gift.collection + " #" + gift.number + '</b></p>' +
+    '<label class="cs-search"><input id="send-to" type="text" placeholder="' + t("send_to_ph") + '" autocomplete="off" autocapitalize="none" spellcheck="false"></label>' +
+    '<div class="sh-btns"><button class="btn big" id="send-cancel" type="button">' + t("cancel_btn") + '</button>' +
+    '<button class="btn primary big" id="send-ok" type="button">' + t("send_confirm") + "</button></div>");
+  document.getElementById("send-cancel").addEventListener("click", closeSheet);
+  document.getElementById("send-ok").addEventListener("click", function () {
+    var to = document.getElementById("send-to").value.trim();
+    if (!to) { toastMsg(t("send_to_ph")); return; }
+    tpApi("/api/gifts/" + gift.id + "/send", { method: "POST", body: { to: to } }).then(function () {
+      closeSheet(); toastMsg(t("send_queued")); return loadMarket();
+    }).catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+  });
+};
+function openGiftPicker(mode) {
+  var avail = state.myGifts.filter(function (g) { return !g.listed && !g.transferring; });
+  if (!avail.length) { toastMsg(mode === "sell" ? t("sell_pick") : t("gifts_empty")); return; }
+  openSheetEl('<h2 class="sh-title">' + t("pick_gift") + "</h2>" + avail.map(function (g) {
+    return '<button type="button" class="cs-row" data-pick-id="' + g.id + '">' + tpThumb(g.collection, "cs-thumb") +
+      '<span class="cs-main"><b>' + g.collection + " #" + g.number + "</b><small>" + g.model + " · " + g.backdrop + " · " + g.symbol + "</small></span>" + CARET_SVG + "</button>";
+  }).join(""));
+  document.querySelectorAll("[data-pick-id]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var g = state.myGifts.find(function (x) { return x.id === +b.dataset.pickId; });
+      closeSheet();
+      if (!g) return;
+      if (mode === "sell") giftAction("sell", g.id);
+      else if (mode === "withdraw") openWithdrawConfirm(g);
+      else if (mode === "send") window.openSendSheet(g);
+    });
+  });
+}
+giftAction = function (act, id) {
+  var g = state.myGifts.find(function (x) { return x.id === id; });
+  if (!g || g.transferring) return;
+  if (act === "sell") {
+    state.sellGiftId = id;
+    document.getElementById("sell-gift-name").textContent = g.collection + " #" + g.number;
+    document.getElementById("sell-dialog").showModal();
+  } else if (act === "unlist") {
+    tpApi("/api/unlist", { method: "POST", body: { listing_id: id } }).then(function () { return loadMarket(); })
+      .catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+  } else if (act === "add") { openAddInstruction(); }
+  else if (act === "withdraw") { openWithdrawConfirm(g); }
+  else if (act === "send") { window.openSendSheet(g); }
+};
+/* Верхні кнопки подарунків: add — інструкція; wd/send/sell — пікер
+   невиставленого подарунка (у #ga-sell лишається ТІЛЬКИ пікер). */
+var _gaAdd = document.getElementById("ga-add"); if (_gaAdd) _gaAdd.onclick = function () { openAddInstruction(); };
+var _gaWd = document.getElementById("ga-wd"); if (_gaWd) _gaWd.onclick = function () { openGiftPicker("withdraw"); };
+var _gaSend = document.getElementById("ga-send"); if (_gaSend) _gaSend.onclick = function () { openGiftPicker("send"); };
+var _gaSell = document.getElementById("ga-sell"); if (_gaSell) _gaSell.onclick = function () { openGiftPicker("sell"); };
+/* Sell-підтвердження — POST /api/list (кнопку клоновано, щоб зняти старий
+   локальний обробник, який лише мутував state.myGifts). */
+(function () {
+  var btn = document.getElementById("sell-submit");
+  if (!btn) return;
+  var nb = btn.cloneNode(true);
+  btn.replaceWith(nb);
+  nb.addEventListener("click", function () {
+    var price = parseFloat(document.getElementById("sell-price").value);
+    if (!price || price <= 0) { alertUser(t("enter_price")); return; }
+    tpApi("/api/list", { method: "POST", body: { listing_id: state.sellGiftId, price: price } }).then(function () {
+      document.getElementById("sell-dialog").close();
+      giftsTab = "listed";
+      document.querySelectorAll("[data-gifts-tab]").forEach(function (x) {
+        x.classList.toggle("active", x.dataset.giftsTab === "listed");
+      });
+      return loadMarket();
+    }).catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+  });
+})();
+
+/* ---------- Оффери: список у вкладці Offers (placed / received / cols) ---------- */
+renderOffers = function () {
+  var data = state.offersData || { placed: [], received: [] };
+  var placed = data.placed || [], received = data.received || [];
+  var cols = received.filter(function (o) { return o.listing_id == null; });
+  var pc = document.getElementById("cnt-placed"); if (pc) pc.textContent = placed.length;
+  var emRecv = document.querySelector('[data-ov="recv"] em'); if (emRecv) emRecv.textContent = received.length;
+  var emCols = document.querySelector('[data-ov="cols"] em'); if (emCols) emCols.textContent = cols.length;
+  var items = ovTab === "placed" ? placed : ovTab === "cols" ? cols : received;
+  var list = document.getElementById("offers-list");
+  if (!list) return;
+  if (!items.length) {
+    list.innerHTML = '<div class="emptybox"><div class="big">🪑</div><b>' +
+      (ovTab === "recv" ? t("offers_empty_recv") : ovTab === "placed" ? t("offers_empty_placed") : t("offers_empty_cols")) +
+      '</b><button class="btn primary" id="to-store">' + t("to_store") + "</button></div>";
+    var ts = document.getElementById("to-store"); if (ts) ts.onclick = goToMarket;
+    return;
+  }
+  list.innerHTML = items.map(function (o) {
+    var title = o.collection + (o.g_number ? " #" + o.g_number : "");
+    var sub, btn = "";
+    if (ovTab === "placed") {
+      sub = t("offer_status_" + o.status) +
+        (o.status === "active" && o.locked_total ? " · " + t("offer_locked") + ": " + fmt(o.locked_total) + " GRAM" : "");
+      if (o.status === "active") btn = '<button class="btn small" data-offer-cancel="' + o.id + '">' + t("offer_cancel") + "</button>";
+    } else {
+      sub = o.listing_id == null ? t("offer_on_col") : o.collection;
+      btn = '<button class="btn small primary" data-offer-accept="' + o.id + '">' + t("offer_accept") + "</button>";
+    }
+    return '<div class="hrow"><div class="hth">🏷️</div><div class="hm"><b>' + title + '</b><small>' + sub + '</small></div><b>' + fmt(o.price) + " GRAM</b>" + btn + "</div>";
+  }).join("");
+  list.querySelectorAll("[data-offer-cancel]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      tpApi("/api/offers/" + b.dataset.offerCancel + "/cancel", { method: "POST", body: {} }).then(function () { return loadMarket(); })
+        .catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+    });
+  });
+  list.querySelectorAll("[data-offer-accept]").forEach(function (b) {
+    b.addEventListener("click", function () { acceptOfferFlow(+b.dataset.offerAccept); });
+  });
+};
+function doAcceptOffer(offerId, giftId) {
+  tpApi("/api/offers/" + offerId + "/accept", { method: "POST", body: { listing_id: giftId } }).then(function () { return loadMarket(); })
+    .catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+}
+function acceptOfferFlow(offerId) {
+  var data = state.offersData || { received: [] };
+  var o = (data.received || []).find(function (x) { return x.id === offerId; });
+  if (!o) return;
+  var gids = o.gift_ids || [];
+  if (gids.length === 1) { doAcceptOffer(offerId, gids[0]); return; }
+  if (!gids.length) { toastMsg(t("gifts_empty")); return; }
+  openSheetEl('<h2 class="sh-title">' + t("pick_gift") + "</h2>" + gids.map(function (gid) {
+    var g = state.myGifts.find(function (x) { return x.id === gid; });
+    if (!g) return "";
+    return '<button type="button" class="cs-row" data-acc-gift="' + gid + '">' + tpThumb(g.collection, "cs-thumb") +
+      '<span class="cs-main"><b>' + g.collection + " #" + g.number + "</b><small>" + g.model + " · " + g.backdrop + " · " + g.symbol + "</small></span>" + CARET_SVG + "</button>";
+  }).join(""));
+  document.querySelectorAll("[data-acc-gift]").forEach(function (b) {
+    b.addEventListener("click", function () { closeSheet(); doAcceptOffer(offerId, +b.dataset.accGift); });
+  });
+}
+
+/* ---------- Шит лота: мої оффери по цій колекції/лоту з GET /api/offers ---------- */
+var _tpOpenBuyTrade = openBuy;
+openBuy = function (id) {
+  _tpOpenBuyTrade(id);
+  var lot = state.currentLot, box = document.getElementById("buy-offers");
+  if (!lot || !box) return;
+  var placed = (state.offersData && state.offersData.placed) || [];
+  var mine = placed.filter(function (o) { return o.listing_id === lot.id || o.collection === lot.collection; });
+  box.innerHTML = mine.length ? mine.map(function (o) {
+    return '<div class="offer-row"><span>' + (o.listing_id ? lot.collection + " #" + lot.number : t("offer_on_col")) +
+      " · " + t("offer_status_" + o.status) + '</span><b>' + fmt(o.price) + " GRAM</b></div>";
+  }).join("") : '<div class="offers-empty">' + t("offers_empty") + "</div>";
+};
+
+/* ---------- Діалог оффера: цільовий (з шита лота) і колекційний (зі сторінки колекції) ---------- */
+var tpOfferMode = { type: "collection", collection: null, lot: null };
+(function () {
+  function setAmountVisible(v) {
+    var amt = document.getElementById("offer-amount");
+    if (amt && amt.closest("label")) amt.closest("label").style.display = v ? "" : "none";
+  }
+  function setTitlePrefix(v) {
+    var sp = document.querySelector("#offer-dialog h3 [data-i18n]");
+    if (sp) sp.style.display = v ? "" : "none";
+  }
+  var colBtn = document.getElementById("col-offer-btn");
+  if (colBtn) colBtn.addEventListener("click", function () {
+    tpOfferMode = { type: "collection", collection: state.currentCollection ? state.currentCollection.name : null, lot: null };
+    setAmountVisible(true); setTitlePrefix(true);
+  });
+  var buyBtn = document.getElementById("buy-offer-btn");
+  if (buyBtn) {
+    var nb = buyBtn.cloneNode(true);
+    buyBtn.replaceWith(nb);
+    nb.addEventListener("click", function () {
+      var lot = state.currentLot;
+      if (!lot) return;
+      tpOfferMode = { type: "lot", collection: lot.collection, lot: lot };
+      document.getElementById("offer-col-name").textContent = lot.collection + " #" + lot.number;
+      setAmountVisible(false); setTitlePrefix(false);
+      closeSheetDialog(document.getElementById("buy-dialog"));
+      setTimeout(function () { openSheetDialog(document.getElementById("offer-dialog")); }, 380);
+    });
+  }
+  var sub = document.getElementById("offer-submit");
+  if (sub) {
+    var ns = sub.cloneNode(true);
+    sub.replaceWith(ns);
+    ns.addEventListener("click", function () {
+      var price = parseFloat(document.getElementById("offer-price").value);
+      var days = parseInt(document.getElementById("offer-duration").value, 10) || 3;
+      var amount = parseInt(document.getElementById("offer-amount").value, 10);
+      var body;
+      if (tpOfferMode.type === "lot" && tpOfferMode.lot) {
+        if (!price || price <= 0) { alertUser(t("enter_price")); return; }
+        body = { listing_id: tpOfferMode.lot.id, price: price, duration_days: days };
+      } else {
+        if (!price || price <= 0 || !amount) { alertUser(t("enter_price_amount")); return; }
+        body = { collection: tpOfferMode.collection || (state.currentCollection && state.currentCollection.name),
+          price: price, amount: amount, duration_days: days };
+      }
+      tpApi("/api/offers", { method: "POST", body: body }).then(function () {
+        closeSheetDialog(document.getElementById("offer-dialog"));
+        if (tpOfferMode.type === "lot") toastMsg(t("offer_created_lot").replace("{price}", fmt(price)).replace("{days}", days));
+        else toastMsg(t("offer_created").replace("{amount}", amount).replace("{col}", body.collection).replace("{price}", fmt(price)).replace("{days}", days));
+        return loadMarket();
+      }).catch(function (e) { toastMsg(e && e.message ? e.message : t("api_unavailable")); });
+    });
+  }
+})();
+
+/* ---------- Старт: тягнемо справжній стан торгівлі ---------- */
+loadMarket();
 </script>
 </body>
 </html>
