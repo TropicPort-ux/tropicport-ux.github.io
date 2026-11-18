@@ -3563,7 +3563,7 @@ function openFilters() {
   $("#f-go").onclick = () => { closeSheet(); renderGrid(); };
 }
 const fl = document.querySelector("#store-all .filters");
-fl.insertAdjacentHTML("afterbegin", '<button class="icon-btn" id="open-filters" aria-label="Filters"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 5h16l-6.1 7.1v6.4l-3.8-2.1V12.1z" fill="#c9c9c9"/></svg><span id="filters-badge" class="badge hidden">0</span></button><button class="icon-btn" id="open-sort"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#c9c9c9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v15M8 19l-3.2-3.2M8 19l3.2-3.2M16 20V5M16 5L12.8 8.2M16 5l3.2 3.2"/></svg></button><button class="icon-btn hidden" id="clear-filters" type="button" aria-label="Clear all filters"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c9c9c9" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button><span class="vsep"></span>');
+fl.insertAdjacentHTML("afterbegin", '<button class="icon-btn" id="open-filters" aria-label="Filters"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 5h16l-6.1 7.1v6.4l-3.8-2.1V12.1z" fill="#c9c9c9"/></svg><span id="filters-badge" class="badge hidden">0</span></button><button class="icon-btn" id="open-sort"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#c9c9c9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v15M8 19l-3.2-3.2M8 19l3.2-3.2M16 20V5M16 5L12.8 8.2M16 5l3.2 3.2"/></svg></button><span class="vsep"></span>');
 /* Воронка відкриває об'єднаний шит фільтрів: обробник вішає блок шита Filters нижче на #open-filters. */
 $("#open-sort").onclick = openSort;
 
@@ -8945,68 +8945,6 @@ if (window.tpHeroFallback) {
     tpMountHeroActions();
   };
 }
-</script>
-<script>
-/* ---------- Кнопка ✕ у рядку фільтрів: скидання ВСІХ фільтрів одним тапом ----------
-   Кнопка (#clear-filters) стоїть у рядку фільтрів одразу після кнопки сортування,
-   перед роздільником і чіпами Collection/Model/Background/Symbol (її додає скрипт
-   рядка фільтрів поруч із #open-filters / #open-sort, із класом hidden).
-   Видима ТІЛЬКИ коли активний хоча б один фільтр — той самий підрахунок, що й
-   у бейджа на лійці: колекції (storeColSel) + трейты (TP_TRAITS / приховані
-   select-и f-model / f-back / f-symbol) + ціновий діапазон (p-min / p-max). */
-function tpFiltersActiveCount() {
-  var n = 0;
-  try { if (typeof storeColSel !== "undefined" && storeColSel) n += storeColSel.length; } catch (e) {}
-  ["model", "backdrop", "symbol"].forEach(function (kind) {
-    var c = 0;
-    try { if (typeof TP_TRAITS !== "undefined" && TP_TRAITS && TP_TRAITS[kind]) c = TP_TRAITS[kind].length; } catch (e) {}
-    if (!c) {
-      var sel = document.getElementById({ model: "f-model", backdrop: "f-back", symbol: "f-symbol" }[kind]);
-      if (sel && sel.value) c = 1;
-    }
-    n += c;
-  });
-  var pm = document.getElementById("p-min"), px = document.getElementById("p-max");
-  if ((pm && pm.value) || (px && px.value)) n += 1;
-  return n;
-}
-function tpSyncClearFiltersBtn() {
-  var btn = document.getElementById("clear-filters");
-  if (!btn) return;
-  btn.classList.toggle("hidden", tpFiltersActiveCount() === 0);
-}
-function tpClearAllFilters() {
-  storeColSel = [];
-  if (typeof TP_TRAITS !== "undefined" && TP_TRAITS) { TP_TRAITS.model = []; TP_TRAITS.backdrop = []; TP_TRAITS.symbol = []; }
-  ["f-collection", "f-model", "f-back", "f-symbol"].forEach(function (id) {
-    var s = document.getElementById(id); if (s) s.value = "";
-  });
-  if (typeof ppLo !== "undefined" && typeof ppHi !== "undefined" && typeof ppApply === "function") {
-    ppLo.value = 0; ppHi.value = 1000; ppApply(false);
-  }
-  var pm = document.getElementById("p-min"), px = document.getElementById("p-max");
-  if (pm) pm.value = ""; if (px) px.value = "";
-  if (typeof syncColChip === "function") syncColChip();
-  if (typeof syncTraitChips === "function") syncTraitChips();
-  if (typeof syncFiltersBadge === "function") syncFiltersBadge();
-  renderGrid();
-  tpSyncClearFiltersBtn();
-}
-(function () {
-  var btn = document.getElementById("clear-filters");
-  if (btn) btn.addEventListener("click", tpClearAllFilters);
-  /* Видимість кнопки освіжається після кожного перерахунку бейджа і кожного
-     перерендеру сітки — тобто після будь-якої зміни фільтрів. */
-  if (typeof syncFiltersBadge === "function") {
-    var prevSyncBadge = syncFiltersBadge;
-    syncFiltersBadge = function () { prevSyncBadge(); tpSyncClearFiltersBtn(); };
-  }
-  if (typeof renderGrid === "function") {
-    var prevRenderGrid = renderGrid;
-    renderGrid = function () { prevRenderGrid(); tpSyncClearFiltersBtn(); };
-  }
-  tpSyncClearFiltersBtn();
-})();
 </script>
 <script>
 /* ---------- Кнопка «Model» у рядку фільтрів: працює ТІЛЬКИ від обраної колекції ----------
