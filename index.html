@@ -9571,6 +9571,7 @@ syncFiltersBadge = function () {
     if (n === "referral") tpLoadLevels();
   };
   tpLoadProfileRef();
+  setTimeout(tpLoadProfileRef, 3000); /* страховий повтор: перший виклик може обігнати готовність initData/API-бази */
 })();
 </script>
 <script>
