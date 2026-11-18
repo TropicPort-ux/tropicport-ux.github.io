@@ -4634,6 +4634,12 @@ function tpApi(path, opts) {
   });
 }
 
+function tpAlert(msg) {
+  /* alertUser у деяких webview-оточеннях кидає синхронно (showAlert/showPopup
+     недоступні) — сповіщення не має права ламати грошовий флоу. */
+  try { tpAlert(msg); } catch (e) { try { toastMsg(msg); } catch (e2) {} }
+}
+
 function tpRefreshProfile() {
   return tpApi("/api/profile").then(function (p) {
     if (p && typeof p.balance === "number") { state.balance = p.balance; renderBalance(); }
@@ -4695,20 +4701,20 @@ function tpDoDeposit(amt, btn, statusEl) {
     }, 5000);
   }).catch(function (err) {
     btn.disabled = false;
-    if (err && /reject|cancel|declin/i.test(String(err.message || err))) alertUser(t("dep_rejected"));
-    else alertUser(err && err.message ? err.message : t("api_unavailable"));
+    if (err && /reject|cancel|declin/i.test(String(err.message || err))) tpAlert(t("dep_rejected"));
+    else tpAlert(err && err.message ? err.message : t("api_unavailable"));
   });
 }
 
 function tpDoWithdraw(amt, btn) {
   btn.disabled = true;
   tpApi("/api/withdraw", { method: "POST", body: { amount: amt, to_address: tcState.address } }).then(function () {
-    alertUser(t("wd_created"));
     closeSheet();
     tpRefreshProfile().catch(function () {});
+    tpAlert(t("wd_created"));
   }).catch(function (err) {
     btn.disabled = false;
-    alertUser(err && err.message ? err.message : t("api_unavailable"));
+    tpAlert(err && err.message ? err.message : t("api_unavailable"));
   });
 }
 
@@ -4740,11 +4746,11 @@ function openWalletSheet(kind) {
     b.addEventListener("click", function () {
       if (b.dataset.v !== "all") { amtEl.value = b.dataset.v; return; }
       if (isDep) {
-        if (!tcState.connected) { alertUser(t("wallet_not_connected")); return; }
+        if (!tcState.connected) { tpAlert(t("wallet_not_connected")); return; }
         tpWalletGramBalance().then(function (v) {
           var fill = Math.floor(Math.max(0, v - 0.05) * 100) / 100;
-          if (fill > 0) amtEl.value = fill; else alertUser(t("not_enough"));
-        }).catch(function () { alertUser(t("api_unavailable")); });
+          if (fill > 0) amtEl.value = fill; else tpAlert(t("not_enough"));
+        }).catch(function () { tpAlert(t("api_unavailable")); });
       } else {
         amtEl.value = state.balance || "";
       }
@@ -4752,12 +4758,12 @@ function openWalletSheet(kind) {
   });
   goBtn.addEventListener("click", function () {
     var amt = parseFloat(amtEl.value);
-    if (!amt || amt <= 0) { alertUser(t("w_enter_amount")); return; }
-    if (!tcState.connected) { alertUser(t("wallet_not_connected")); return; }
+    if (!amt || amt <= 0) { tpAlert(t("w_enter_amount")); return; }
+    if (!tcState.connected) { tpAlert(t("wallet_not_connected")); return; }
     if (isDep) { tpDoDeposit(amt, goBtn, statusEl); return; }
-    if (amt < 1) { alertUser(t("wd_min")); return; }
-    if (amt > 2500) { alertUser(t("wd_limit_tx") + ": 2 500"); return; }
-    if (amt > state.balance) { alertUser(t("not_enough")); return; }
+    if (amt < 1) { tpAlert(t("wd_min")); return; }
+    if (amt > 2500) { tpAlert(t("wd_limit_tx") + ": 2 500"); return; }
+    if (amt > state.balance) { tpAlert(t("not_enough")); return; }
     tpDoWithdraw(amt, goBtn);
   });
 }
@@ -4768,7 +4774,7 @@ syncWallet();
    /api/profile і показуємо тільки серверну цифру; API недоступне —
    лишаємо 0 і чесно кажемо про це тостом (цифри не вигадуємо). */
 if (TP_API_BASE) {
-  tpRefreshProfile().catch(function () { alertUser(t("api_unavailable")); });
+  tpRefreshProfile().catch(function () { tpAlert(t("api_unavailable")); });
 }
 /* Ключі гаманця додані тільки в цьому скрипті (вище), тобто після
    початкового applyLang() у initLang — тому застосовуємо переклад
