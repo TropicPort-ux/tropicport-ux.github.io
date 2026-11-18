@@ -4060,6 +4060,13 @@ var LOTTIE_SLUG = {
   "Candy Cane|231697": "candycane-231697", "Ionic Dryer|2044": "ionicdryer-2044"
 };
 var TP_REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* ВАЖЛИВО: TP_REDUCED більше НЕ глушить автоплей анімацій подарунків.
+   На телефонах із системним «прибрати анімації» / нульовою шкалою аніматора
+   WebView Telegram звітує prefers-reduced-motion, і картки назавжди
+   зависали на кадрі 0 (статичні, як постер). Portals у вебвʼю цей
+   системний прапор для анімацій подарунків ігнорує — робимо так само:
+   loadLotAnim для карток і героя шита викликається з autoplay=true.
+   TP_REDUCED лишається тільки для паралакс-нахилу і smooth-скролу. */
 
 function loadLotAnim(container, imgEl, lot, autoplay) {
   var rec = { anim: null };
@@ -4183,7 +4190,7 @@ function tpGetObserver() {
       tpPending.forEach(function (x) { if (x.card === en.target) p = x; });
       if (!p) return;
       if (en.isIntersecting) {
-        if (!p.rec) { p.rec = loadLotAnim(p.wrap, p.img, p.lot, !TP_REDUCED); tpRecs.push(p.rec); }
+        if (!p.rec) { p.rec = loadLotAnim(p.wrap, p.img, p.lot, true); tpRecs.push(p.rec); }
         else if (p.rec.anim) p.rec.anim.play();
       } else if (p.rec && p.rec.anim) p.rec.anim.pause();
     });
@@ -4203,7 +4210,7 @@ window.initCardAnim = function (card) {
   var p = { card: card, wrap: wrap, img: img, lot: lot, rec: null };
   var obs = tpGetObserver();
   if (obs) { tpPending.push(p); obs.observe(card); }
-  else { p.rec = loadLotAnim(wrap, img, lot, !TP_REDUCED); tpRecs.push(p.rec); }
+  else { p.rec = loadLotAnim(wrap, img, lot, true); tpRecs.push(p.rec); }
 };
 /* Перемальовка сітки вбиває старі анімації, щоб не текли й не гальмували */
 var _tpRenderGrid = renderGrid;
@@ -4238,7 +4245,7 @@ window.initBuyAnim = function (lot) {
   if (!cont) return;
   if (tpBuyRec && tpBuyRec.anim) { try { tpBuyRec.anim.destroy(); } catch (e) {} }
   cont.innerHTML = ""; cont.style.display = "block";
-  tpBuyRec = loadLotAnim(cont, img, lot, !TP_REDUCED);
+  tpBuyRec = loadLotAnim(cont, img, lot, true);
   var bv = document.getElementById("buy-visual");
   if (bv && !TP_REDUCED && !bv.dataset.tiltBound) {
     bv.dataset.tiltBound = "1";
