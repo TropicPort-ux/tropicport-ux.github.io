@@ -1605,6 +1605,83 @@ dialog#buy-dialog .btn.ghost { margin-top: 2px; }
 </style>
 </head>
 <body>
+<style>
+/* ===== Сплеш TropicPort: темний тропічний порт, бульбашки з подарунками ===== */
+#tp-splash { position: fixed; inset: 0; z-index: 2000; overflow: hidden; color: #fff;
+  background:
+    radial-gradient(620px 380px at 50% -90px, rgba(255,122,89,.30), rgba(255,122,89,0) 60%),
+    radial-gradient(720px 520px at 88% 112%, rgba(32,178,166,.20), rgba(32,178,166,0) 60%),
+    linear-gradient(180deg, #07242e 0%, #04161c 55%, #030f14 100%);
+  transition: opacity .55s ease, visibility 0s linear .55s; }
+#tp-splash.tp-sp-hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.tp-sp-brand { position: absolute; top: calc(26px + env(safe-area-inset-top)); left: 0; right: 0;
+  text-align: center; font-size: 27px; font-weight: 800; letter-spacing: .4px; }
+.tp-sp-brand i { font-style: normal; color: #ff8a5c; }
+.tp-sp-center { position: absolute; left: 50%; top: 44%; width: 172px; height: 172px;
+  transform: translate(-50%, -50%); border-radius: 50%; padding: 5px;
+  background: linear-gradient(150deg, rgba(255,138,92,.85), rgba(32,178,166,.85));
+  box-shadow: 0 24px 60px rgba(0,0,0,.55), 0 0 64px rgba(255,122,89,.28);
+  animation: tp-sp-breathe 3.4s ease-in-out infinite; }
+.tp-sp-center img { width: 100%; height: 100%; border-radius: 50%; display: block; object-fit: cover; }
+@keyframes tp-sp-breathe { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.045); } }
+.tp-sp-b { position: absolute; border-radius: 50%; overflow: hidden; flex: none;
+  border: 2px solid rgba(255,255,255,.38);
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.10), inset -8px -10px 18px rgba(255,255,255,.10), 0 14px 30px rgba(0,0,0,.45);
+  animation: tp-sp-float var(--d, 7s) ease-in-out var(--dl, 0s) infinite alternate; }
+.tp-sp-b img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@keyframes tp-sp-float { from { transform: translateY(-11px); } to { transform: translateY(11px); } }
+.tp-sp-bottom { position: absolute; left: 0; right: 0; bottom: 0; text-align: center; }
+.tp-sp-tag { font-size: 14.5px; font-weight: 600; color: rgba(255,255,255,.82); letter-spacing: .3px; margin-bottom: 16px; padding: 0 20px; }
+.tp-sp-bar { height: 3px; background: rgba(255,255,255,.13); }
+.tp-sp-bar i { display: block; height: 100%; width: 4%;
+  background: linear-gradient(90deg, #20b2a6, #ff8a5c); border-radius: 0 3px 3px 0;
+  animation: tp-sp-fill 2.9s cubic-bezier(.22,.8,.36,1) forwards; }
+@keyframes tp-sp-fill { from { width: 4%; } to { width: 100%; } }
+@media (prefers-reduced-motion: reduce) {
+  .tp-sp-center, .tp-sp-b { animation: none; }
+  .tp-sp-bar i { animation-duration: .3s; }
+}
+</style>
+<div id="tp-splash" aria-hidden="true">
+  <div class="tp-sp-brand">Tropic<i>Port</i></div>
+  <span class="tp-sp-b" style="left:9%;  top:16%; width:78px; height:78px; --d:7.5s; --dl:-2s"><img src="assets/renders/plush-pepe/4362ea71-96a4-4949-a21d-c9d6cd1cae57.jpg" alt=""></span>
+  <span class="tp-sp-b" style="left:76%; top:12%; width:58px; height:58px; --d:6.2s; --dl:-1s"><img src="assets/renders/ionic-dryer/01a1d261-0f48-7efe-b3d9-5b8eba527d7d.jpg" alt=""></span>
+  <span class="tp-sp-b" style="left:82%; top:33%; width:90px; height:90px; --d:8.4s; --dl:-3.5s"><img src="assets/renders/heroic-helmet/01a1646f-e99e-78d3-b6ca-55e1e0f42397.jpg" alt=""></span>
+  <span class="tp-sp-b" style="left:5%;  top:40%; width:56px; height:56px; --d:5.8s; --dl:-.6s"><img src="assets/renders/candy-cane/01a1ea8d-af77-7c98-8d15-c9798045b261.jpg" alt=""></span>
+  <span class="tp-sp-b" style="left:13%; top:64%; width:88px; height:88px; --d:7.9s; --dl:-4.2s"><img src="assets/renders/lol-pop/01a1eaa8-feea-7474-946f-75503b989cae.jpg" alt=""></span>
+  <span class="tp-sp-b" style="left:79%; top:60%; width:68px; height:68px; --d:6.8s; --dl:-2.8s"><img src="assets/renders/lunar-snake/01a1ea5b-44d8-786b-be2f-61d2e2c4ad81.jpg" alt=""></span>
+  <span class="tp-sp-b" style="left:60%; top:76%; width:52px; height:52px; --d:6.4s; --dl:-1.7s"><img src="assets/renders/mood-pack/019d01e1-1da8-75e5-b7cf-992b98446c1b.jpg" alt=""></span>
+  <span class="tp-sp-b" style="left:29%; top:8%;  width:50px; height:50px; --d:5.5s; --dl:-.3s"><img src="assets/renders/lucky-locket/01a12066-e6bd-781c-a9c4-44223de2871a.jpg" alt=""></span>
+  <div class="tp-sp-center"><img src="assets/logo-full.png" alt="TropicPort"></div>
+  <div class="tp-sp-bottom">
+    <div class="tp-sp-tag">Open the port. Trade your gifts.</div>
+    <div class="tp-sp-bar"><i></i></div>
+  </div>
+</div>
+<script>
+/* Сплеш живе, доки маркет під ним не покаже першу сітку: мінімум ~900 мс,
+   жорсткий запобіжник ~3,5 с — зникає сам, без кліків і кнопок. */
+(function () {
+  var sp = document.getElementById("tp-splash");
+  if (!sp) return;
+  var t0 = performance.now(), done = false;
+  function hide() {
+    if (done) return;
+    done = true;
+    sp.classList.add("tp-sp-hide");
+    setTimeout(function () { if (sp.parentNode) sp.parentNode.removeChild(sp); }, 700);
+  }
+  var iv = setInterval(function () {
+    var dt = performance.now() - t0;
+    var grid = document.getElementById("grid");
+    if ((dt >= 900 && grid && grid.children.length > 0) || dt >= 3500) {
+      clearInterval(iv);
+      hide();
+    }
+  }, 120);
+  setTimeout(function () { clearInterval(iv); hide(); }, 3600);
+})();
+</script>
 <input type="hidden" id="p-min"><input type="hidden" id="p-max">
 <div id="app">
 
